@@ -105,6 +105,8 @@ if [[ "$INSTALL_KUBECTL" = "0" ]]
     sudo apt install kubectl -y
 fi
 
+exit_if_error "Error installing kubectl"
+
 echo_message "Containerization installation and configuration is completed."
 echo_message "If you already have VMs, you need to delete them using command: minikube delete"
 echo_message "To run minikube, use command: minikube start"
