@@ -1,14 +1,17 @@
 #! /bin/bash
 
-echo "Update packages to latest version"
+# Include functions
+DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
+source "$DIR/functions.sh"
 
-apt update && apt upgrade
+echo_message "Update packages to latest version"
 
-if [ "$?" -ne "0" ]
-then
- echo "Error occured during update of system"
- exit 1
-fi
+apt update && apt upgrade -y
+exit_if_error "Error occured during update of system"
 
-echo "Beautify Grub menu"
+yes_or_no "Do you want to beautify Grub menu?"
+exit_if_answer_no
+
+echo_message "Beautify Grub menu for Linux Mint"
 apt install --reinstall -o Dpkg::Options::="--force-confmiss" grub2-theme-mint2k
