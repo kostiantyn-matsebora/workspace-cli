@@ -20,7 +20,7 @@ green_bold() {
     echo -e "\033[1;92m$1\033[0m"
 }
 
-echo_message(){    
+echo_message(){
     echo -e $(green "[$(timestamp)] $1\n")
 }
 
@@ -38,7 +38,7 @@ echo_error(){
 function question(){
     local MESSAGE=$(green_bold "[$(timestamp)] $1\n")  
     read -sn 1 -p "$MESSAGE" ANSWER
-    echo  "$ANSWER"    
+    echo  "$ANSWER"
 }
 
 
@@ -51,6 +51,11 @@ function exit_if_error(){
 }
 
 function yes_or_no(){
+    if [[ "$2" == "0" ]]
+    then
+        return 0
+    fi
+
     local ANSWER=$(question "$1 [y/n]")
     if [[ "$ANSWER" = "y" || "$ANSWER" = "Y" ]]
     then
@@ -65,5 +70,14 @@ function exit_if_answer_no() {
     then
         echo_message "Exiting..."
         exit 0
+    fi
+}
+
+function yes_to_all(){
+    if [[ "$1" == "--yes" || "$1" == "-y" ]]
+    then
+        echo 0
+    else
+        echo 1
     fi
 }
