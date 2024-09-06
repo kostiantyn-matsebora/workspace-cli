@@ -1,9 +1,11 @@
-#! /bin/bash
+#!/bin/bash
 
 # Include functions
 DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
 source "$DIR/functions.sh"
+
+echo_info "Installing and configuring containerization tools"
 
 # Install containerization tools
 yes_or_no "Do you want to install nerdctl+containerd+buildKit?"

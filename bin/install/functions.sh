@@ -1,4 +1,4 @@
-# !/bin/bash
+#!/bin/bash
 
 timestamp() {
   date +%F_%T # current date and time
@@ -21,26 +21,34 @@ green_bold() {
 }
 
 echo_message(){
-    echo -e $(green "[$(timestamp)] $1\n")
+    echo -e "$(green "[$(timestamp)] $1\n")"
 }
 
 echo_info(){
     echo -e "\n"
-    echo -e $(yellow "[$(timestamp)] $1\n")
+    echo -e "$(yellow "[$(timestamp)] $1\n")"
 
 }
 
 echo_error(){
-    echo -e $(red "[$(timestamp)] $1\n")
+    echo -e "$(red "[$(timestamp)] $1\n")"
     echo -e "\n"
 }
 
 function question(){
-    local MESSAGE=$(green_bold "[$(timestamp)] $1\n")  
-    read -sn 1 -p "$MESSAGE" ANSWER
+    local MESSAGE
+    MESSAGE=$(green_bold "[$(timestamp)] $1\n")  
+    read -sn 1 -r -p "$MESSAGE" ANSWER
     echo  "$ANSWER"
 }
 
+function read_input(){
+    
+    local MESSAGE
+    MESSAGE=$(green_bold "[$(timestamp)] $1")  
+    read -r -p "$MESSAGE" ANSWER
+    echo  "$ANSWER"
+}
 
 function exit_if_error(){
     if [ "$?" -ne "0" ]
@@ -56,7 +64,8 @@ function yes_or_no(){
         return 0
     fi
 
-    local ANSWER=$(question "$1 [y/n]")
+    local ANSWER
+    ANSWER=$(question "$1 [y/n]")
     if [[ "$ANSWER" = "y" || "$ANSWER" = "Y" ]]
     then
         return 0

@@ -1,2 +1,3 @@
+// Purpose: Ignore files except bin and bin subdirectories
 /*
-!/bin/*
+!bin/

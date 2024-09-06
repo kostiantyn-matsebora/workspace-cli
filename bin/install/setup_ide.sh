@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 # Include functions
 DIR="${BASH_SOURCE%/*}"
@@ -7,19 +7,11 @@ source "$DIR/functions.sh"
 
 YESTOALL=$(yes_to_all "$1")
 
-yes_or_no "Do you want to install git?" $YESTOALL
+echo_info "Installing and configuring IDE"
+yes_or_no "Do you want to install VSCode?" "$YESTOALL"
 if [[ $? -eq 0 ]]
 then
-	echo_info "Installing git"
-	sudo apt install git -y
-else
-	echo_message "Skipping git installation"
-fi
-
-yes_or_no "Do you want to install VSCode?" $YESTOALL
-if [[ $? -eq 0 ]]
-then
-	echo_info "Installing VSCode"
+	echo_message "Installing VSCode"
 	sudo apt-get install  -y wget gpg
 	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
 	sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
@@ -33,10 +25,10 @@ else
 	echo_message "Skipping VSCode installation"
 fi
 
-yes_or_no "Do you want to install shellcheck?" $YESTOALL
+yes_or_no "Do you want to install shellcheck?" "$YESTOALL"
 exit_if_answer_no
 
-echo_info "Installing shellcheck"
+echo_message "Installing shellcheck"
 
 sudo apt update &&
 sudo apt install -y shellcheck
