@@ -57,13 +57,12 @@ do
 	then
 		echo_message "Your ssh configuration is:"
 		cat "${HOME}/.ssh/config"
+		exit_if_error "Error reading ssh config"
 
 		echo_message "Your ssh keys and configuration are:"
 		ls -l "$HOME/.ssh"
-
+		exit_if_error "Error reading ssh config"
 		echo_info "Do not forget to add generated ssh keys to your github account using following instruction: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account"
 	fi
 
 done
-
-
