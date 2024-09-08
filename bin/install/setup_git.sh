@@ -1,5 +1,8 @@
 #!/bin/bash
 
+## Install and configure git
+
+# Include functions
 DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
 source "${DIR}/functions.sh"

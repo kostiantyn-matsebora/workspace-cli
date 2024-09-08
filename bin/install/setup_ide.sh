@@ -1,5 +1,7 @@
 #!/bin/bash
 
+## Install and configure IDE
+
 # Include functions
 DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi

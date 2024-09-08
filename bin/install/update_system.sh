@@ -1,5 +1,7 @@
 #! /bin/bash
 
+## Update system and install packages
+
 # Include functions
 DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
