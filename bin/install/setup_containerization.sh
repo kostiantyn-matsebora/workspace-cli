@@ -8,16 +8,20 @@ source "$DIR/functions.sh"
 echo_info "Installing and configuring containerization tools"
 
 # Install containerization tools
-yes_or_no "Do you want to install nerdctl+containerd+buildKit?"
+# https://rootlesscontaine.rs/getting-started/docker/
+yes_or_no "Do you want to install rootless docker (docker + containerd + buildkit)?"
 
 if [ $? -eq 0 ] 
 then
-    echo_message "Installing containerd"
-    
-    sudo apt install -y containerd
-    
-    exit_if_error "Error installing containerd"
+    # Install dependencies
+   echo_message "Installing docker"
+   curl -o install.sh -fsSL https://get.docker.com
+   sudo sh install.sh
+   exit_if_error "Error installing docker"
 
+   # Setup rootless docker
+    echo_message "Setting up rootless docker"
+    dockerd-rootless-setuptool.sh install
 fi
 
 # Install minikube and all dependencies

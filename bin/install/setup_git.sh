@@ -43,10 +43,10 @@ do
 		then
 			HOST=$GITHUBHOST
 		fi
-		echo "Host $HOST" >> ~/.ssh/config
-		echo "  HostName $GITHUBHOST" >> "$HOME"/.ssh/config
-		echo "  User git" >> ~/.ssh/config
-		echo "  IdentityFile $FILENAME" >> "$HOME"/.ssh/config
+		echo "Host $HOST" >> ~/.ssh/config &&
+		echo "  HostName $GITHUBHOST" >> "$HOME"/.ssh/config &&
+		echo "  User git" >> ~/.ssh/config &&
+		echo "  IdentityFile $FILENAME" >> "$HOME"/.ssh/config 
 	fi
 	exit_if_error "Error adding host definition and key to ssh config"
 

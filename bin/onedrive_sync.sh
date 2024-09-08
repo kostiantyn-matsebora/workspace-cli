@@ -1,2 +1,2 @@
-onedrive --skip-dir "Docs|Settings|Pictures|Courses|My Music|LinqPad" --synchronize --download-only
+onedrive --skip-dir "Docs|Pictures" --synchronize --download-only
 
