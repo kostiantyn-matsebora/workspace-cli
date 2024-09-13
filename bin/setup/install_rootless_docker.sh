@@ -1,19 +1,22 @@
 #!/bin/bash
 
-## Install rootless docker and docker-compose
-## https://rootlesscontaine.rs/getting-started/docker/
+## Supported modes:
+##  - interactive
+##  - automatic
+## Description:
+##  - Setup rootless docker https://rootlesscontaine.rs/getting-started/docker/
+##  - Setup docker-compose
 
 # Include functions
 DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
-source "$DIR/functions.sh"
+source "$DIR/_functions.sh"
 
-YESTOALL=$(yes_to_all "$1")
+AUTOMATIC_MODE=$(is_automatic_mode "$1")
 
 echo_info "Installing and configuring rootless docker and docler-compose"
 
-
-yes_or_no "Do you want to install rootless docker (roothless docker + containerd + buildkit)?" "$YESTOALL"
+yes_or_no "Do you want to install rootless docker (roothless docker + containerd + buildkit)?" "$AUTOMATIC_MODE"
 
 if [ $? -eq 0 ] 
 then

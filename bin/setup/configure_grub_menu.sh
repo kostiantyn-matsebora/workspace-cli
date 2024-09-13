@@ -1,16 +1,16 @@
-#! /bin/bash
+!#/bin/bash
 
-## Update system and install packages
+## Supported modes:
+##  - interactive
+## Description:
+##  - Beautify Grub menu
 
 # Include functions
 DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
-source "$DIR/functions.sh"
+source "${DIR}/_functions.sh"
 
-echo_message "Update packages to latest version"
-
-apt update && apt upgrade -y
-exit_if_error "Error occured during update of system"
+echo_info "Beautify Grub menu"
 
 yes_or_no "Do you want to beautify Grub menu?"
 exit_if_answer_no

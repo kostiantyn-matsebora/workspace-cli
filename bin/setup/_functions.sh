@@ -1,5 +1,7 @@
 #!/bin/bash
 
+## Functions library
+
 timestamp() {
   date +%F_%T # current date and time
 }
@@ -43,7 +45,13 @@ function question(){
 }
 
 function read_input(){
-    
+    local MESSAGE
+    MESSAGE=$(green_bold "[$(timestamp)] $1")  
+    read -r -p "$MESSAGE" ANSWER
+    echo  "$ANSWER"
+}
+
+function read_input(){
     local MESSAGE
     MESSAGE=$(green_bold "[$(timestamp)] $1")  
     read -r -p "$MESSAGE" ANSWER
@@ -82,7 +90,7 @@ function exit_if_answer_no() {
     fi
 }
 
-function yes_to_all(){
+function is_automatic_mode(){
     if [[ "$1" == "--yes" || "$1" == "-y" ]]
     then
         echo 0

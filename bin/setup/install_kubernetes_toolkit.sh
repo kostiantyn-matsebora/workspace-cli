@@ -1,15 +1,20 @@
 #!/bin/bash
 
-## Install and configure kubernetes tools, including:
-## - kubectl
-## - helm
+# Supported modes:
+#  - interactive
+#  - automatic
+## Description:
+##  - Install and configure kubernetes tools, including:
+##    - kubectl
+##    - helm
+##    - helmfile
 
 # Include functions
 DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
-source "$DIR/functions.sh"
+source "$DIR/_functions.sh"
 
-YESTOALL=$(yes_to_all "$1")
+AUTOMATIC_MODE=$(is_automatic_mode "$1")
 
 echo_info "Installing  and configuring kubernetes tools."
 
@@ -17,7 +22,7 @@ INSTALL_KUBECTL=0
 if [ -e /usr/local/bin/kubectl ]
 then
  echo_message "Kubectl is already installed."
- yes_or_no "Do you want to reinstall/upgrade it?" "$YESTOALL"
+ yes_or_no "Do you want to reinstall/upgrade it?" "$AUTOMATIC_MODE"
  INSTALL_KUBECTL=$?
 fi
 
@@ -38,39 +43,12 @@ then
   exit_if_error "Error configuring kubectl autocompletion"
 fi
 
-if [ -e /etc/rancher/k3s/k3s.yaml ]
-then
-    yes_or_no "Do you want to configure kubectl to use k3s?" "$YESTOALL"
-    if [[ $? -eq 0 ]]
-    then
-        echo_message "Configuring kubectl to use k3s"
-        mkdir -p ~/.kube
-        exit_if_error "Error configuring kubectl to use k3s"
-        if [ -e ~/.kube/config ]
-        then
-            echo_message "Backing up existing kubectl configuration"
-            mv ~/.kube/config ~/.kube/config.bak
-            exit_if_error "Error configuring kubectl to use k3s"
-        fi
-
-        echo_message "Copying k3s configuration  as kubectl configuration"
-        cp /etc/rancher/k3s/k3s.yaml ~/.kube/config &&
-        chmod go-r ~/.kube/config &&
-        kubectl config set-context default &&
-        kubectl config use-context default
-        exit_if_error "Error configuring kubectl to use k3s"
-    else
-        echo_message "Skipping k3s configuration"
-    fi
-fi
-
-
 INSTALL_HELM=0
 
 if [ -e /usr/local/bin/helm ]
 then
  echo_message "Helm is already installed."
- yes_or_no "Do you want to reinstall/upgrade it?" "$YESTOALL"
+ yes_or_no "Do you want to reinstall/upgrade it?" "$AUTOMATIC_MODE"
  INSTALL_HELM=$?
 fi
 
@@ -104,18 +82,20 @@ INSTALL_HELMFILE=0
 if [ -e /usr/local/bin/helmfile ]
 then
  echo_message "Helmfile is already installed."
- yes_or_no "Do you want to reinstall/upgrade it?" "$YESTOALL"
+ yes_or_no "Do you want to reinstall/upgrade it?" "$AUTOMATIC_MODE"
  INSTALL_HELMFILE=$?
 else 
- yes_or_no "Do you want to install helmfile?" "$YESTOALL"
+ yes_or_no "Do you want to install helmfile?" "$AUTOMATIC_MODE"
  INSTALL_HELMFILE=$?
 fi
 
 if [[ "$INSTALL_HELMFILE" = "0" ]]
- then
+then
     echo_message "Installing helmfile"
-    curl -fsSL -o get_helmfile.sh https://raw.githubusercontent.com/roboll/helmfile/master/scripts/get &&
-    chmod 700 get_helmfile.sh &&
-    ./get_helmfile.sh
+    HELMFILE_URL="https://github.com/helmfile/helmfile/releases/download/v0.168.0/helmfile_0.168.0_linux_amd64.tar.gz" 
+    DEST_DIR="/usr/local/bin"
+    curl -L $HELMFILE_URL -o helmfile.tar.gz &&
+    sudo tar -xzf helmfile.tar.gz -C $DEST_DIR &&
+    rm helmfile.tar.gz
     exit_if_error "Error installing helmfile"
- fi
+fi

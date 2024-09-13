@@ -1,13 +1,22 @@
 
 #!/bin/bash
+
+## Supported modes:
+##  - interactive
+##  - automatic
+## Description:
+##  - Install minikube with docker driver and containerd runtime
+
 DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
-source "$DIR/functions.sh"
+source "$DIR/_functions.sh"
 
-YESTOALL=$(yes_to_all "$1")
+AUTOMATIC_MODE=$(is_automatic_mode "$1")
+
+echo_info "Install minikube"
 
 # Install minikube (driver=docker runtime=containerd)
-yes_or_no "Do you want to install minikube (driver=docker containerd and all depedencies?" "$YESTOALL"
+yes_or_no "Do you want to install minikube (driver=docker containerd and all depedencies?" "$AUTOMATIC_MODE"
 
 exit_if_answer_no
 
@@ -16,7 +25,7 @@ INSTALL_MINIKUBE=0
 if [ -e /usr/local/bin/minikube ]
 then
  echo_message "Minikube is already installed."
- yes_or_no "Do you want to reinstall it?" "$YESTOALL"
+ yes_or_no "Do you want to reinstall it?" "$AUTOMATIC_MODE"
  INSTALL_MINIKUBE=$?
 fi
 
