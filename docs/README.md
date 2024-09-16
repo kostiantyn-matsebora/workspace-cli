@@ -1,8 +1,8 @@
 # Workspace CLI
 
-Workspace CLI is a bash script provides functionality for installing and configuring software engineer/devops workspace on Linux environment.
+Workspace CLI is a bash script that provides functionality for installing and configuring workspace for a software engineer/DevOps working with containers and orchestration  on a Linux environment.
 
-Functionality includes installation and configuration following applications:
+Functionality includes installation and configuration of the following applications:
 
 
 - [Git](https://git-scm.com/) and [Github CLI](https://cli.github.com/).
@@ -13,9 +13,9 @@ Functionality includes installation and configuration following applications:
 
 ## Installation
 
-To install workspace cli you simply must do following steps:
+To install workspace CLI you simply must do the following steps:
 
-- Download archive with sources and extract to destination directory, for instance `$HOME/bin/workspace`: 
+- Download the archive with sources and extract to the destination directory, for instance `$HOME/bin/workspace`: 
 
   ```Bash
     mkdir -p $HOME/bin/workspace
@@ -27,7 +27,7 @@ To install workspace cli you simply must do following steps:
     rm master.zip
   ```
 
-- Add alias to your `.bashrc` or `.bash_profile` file:
+- Add an alias to your `.bashrc` or `.bash_profile` file:
 
   ```Bash
   echo "alias workspace='$HOME/bin/workspace/workspace'" >> $HOME/.bashrc
@@ -41,7 +41,7 @@ To install workspace cli you simply must do following steps:
 
 # Usage
 
-After installation you can use workspace cli by running `workspace` command in your terminal. It will show you help message with available commands.
+After installation, you can use workspace CLI by running `workspace` command in your terminal. It will show you a help message with available commands.
 
 ```Bash
 $ workspace
@@ -58,13 +58,13 @@ Commands:
   install   Install applications and tools required for workspace. Does not require interactive input, so this command cannot be used in CI/CD environments and automation scripts.
 ```
 
-To get help for specific command you can run `workspace COMMAND --help`, for instance:
+To get help for specific commands you can run `workspace COMMAND --help`, for instance:
 
 ```Bash
 $ workspace setup --help
 workspace setup
 
-  Setup (install and configure) workspace. Some of steps require interactive
+  Setup (install and configure) workspace. Some of the steps require interactive
   input, so this command cannot be used in CI/CD environments and automation
   scripts.
 
@@ -80,7 +80,7 @@ Options:
 
 Arguments:
   APPLICATION
-    Application  or toolkit needs to be setup. Possible values: all, git,
+    An application  or toolkit needs to be set up. Possible values: all, git,
     docker, k3s, minikube, kube-tools, vscode, vals
 
 Examples:
@@ -88,13 +88,13 @@ Examples:
   workspace setup all // Install and configure all applications
 ```
 
-As an example to install and configure `git` and `GitHub CLI` you can run following command:
+As an example to install and configure `git` and `GitHub CLI` you can run the following command:
 
 ```Bash
 $ workspace setup git
 ```
 
-To setup all applications you can run:
+To install and configure all applications you can run:
 
 ```Bash
 $ workspace setup all
@@ -105,14 +105,14 @@ $ workspace setup all
 
 CLI is generated using  [bashly](https://bashly.dannyb.co/), a bash framework for writing CLI applications.
 
-Bashly configuration ands sources are located in `bashly` directory.
+Bashly configuration and sources are located in `bashly` directory.
 
-If you have already installed bashly you can regenerate CLI by running following command from destination directory:
+If you have already installed bashly you can regenerate CLI by running the following command from the destination directory:
 
 ```Bash
 $ bashly generate
 ```
-or if you already have docker installed you can add following alias to your `.bashrc` or `.bash_profile` file:
+or if you already have docker installed you can add the following alias to your `.bashrc` or `.bash_profile` file:
 
 ```Bash
 alias bashly='docker run -it --rm -v $HOME/bin/workspace -w /work dannyben/bashly'
@@ -127,7 +127,7 @@ For more information how to install bashly you can visit [bashly](https://bashly
 
 ## Contributing
 
-If you experience any issue, have a question or a suggestion, or if you wish
+If you experience any issues, have a question or a suggestion, or if you wish
 to contribute, feel free to [open an issue][issues] or
 [start a discussion][discussions].
 
