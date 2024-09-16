@@ -17,6 +17,7 @@ AUTOMATIC_MODE=$(is_automatic_mode "$1")
 echo_info "Installing git and github CLI"
 
 yes_or_no "Do you want to install git?" "$AUTOMATIC_MODE"
+
 if [[ $? -eq 0 ]]
 then
     echo_message "Installing git"
@@ -26,12 +27,13 @@ else
 fi
 
 yes_or_no "Do you want to install github CLI?" "$AUTOMATIC_MODE"
+
 if [[ $? -eq 0 ]]
 then
     echo_message "Installing github CLI"
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0 &&
-    sudo apt-add-repository https://cli.github.com/packages &&
-    sudo apt update &&
+    sudo apt-add-repository https://cli.github.com/packages -y &&
+    sudo apt update && -y
     sudo apt install gh -y
 else
     echo_message "Skipping github CLI installation"

@@ -1,0 +1,58 @@
+name: workspace
+help: Workspace cli
+version: 0.1.0
+
+commands:
+- name: setup
+  alias: s
+  help: >
+    Setup (install and configure) workspace.
+    Some of steps require interactive input, so this command cannot be used in CI/CD environments and automation scripts.
+
+  args:
+  - name: application
+    help: >
+      Application  or toolkit needs to be setup.
+      Possible values: all, git, docker, k3s, minikube, kube-tools, vscode, vals
+
+  flags: []
+
+  examples:
+  - workspace setup git // Install and configure git
+  - workspace setup all // Install and configure all applications
+
+
+- name: config
+  alias: c
+  help: Configure workspace. Applications needs to be already installed. Some of steps require interactive input, so this command cannot be used in CI/CD environments and automation scripts.
+  args:
+  - name: application
+    help: >
+      Application or toolkit needs to be configured.
+      Possible values: all, git, kubeconfig, vals.
+      
+  examples:
+  - workspace config git // Configuregit
+  - workspace config all // Configure all applications
+
+- name: install
+  alias: i
+  help: >
+    Install applications and tools required for workspace.
+    Does not require interactive input, so this command cannot be used in CI/CD environments and automation scripts.
+  args:
+  - name: application
+    help: >
+      Application or toolkit needs to be installed.
+      Possible values: all, git, docker, k3s, minikube, kube-tools, vscode, vals
+  
+  flags: 
+  - long: --yes
+    short: -y
+    help: Automatic mode, does not require interactive input. Useful for CI/CD environments and automation scripts.
+
+  examples:
+  - workspace install git // Install git, interactive mode
+  - workspace install all -y // Install all applications, automatic mode
+
+

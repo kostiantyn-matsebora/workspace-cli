@@ -10,8 +10,8 @@ green() {
     echo -e "\033[0;32m$1\033[0m"
 }
 
-yellow() {
-    echo -e "\033[0;33m$1\033[0m"
+yellow_bold() {
+    echo -e "\033[1;33m$1\033[0m"
 }
 
 red() {
@@ -28,7 +28,7 @@ echo_message(){
 
 echo_info(){
     echo -e "\n"
-    echo -e "$(yellow "[$(timestamp)] $1\n")"
+    echo -e "$(yellow_bold "[$(timestamp)] $1\n")"
 
 }
 
@@ -97,4 +97,8 @@ function is_automatic_mode(){
     else
         echo 1
     fi
+}
+
+function press_any_key(){
+    read -n 1 -s -r -p "Press any key to continue..."
 }

@@ -13,7 +13,7 @@ source "${DIR}/_functions.sh"
 
 echo_info "Configure git"
 
-yes_or_no "Do you want to set global username and email?"
+yes_or_no "Do you want to set global username and email for git?"
 if [ $? -eq 0 ]
 then
     USERNAME=$(read_input "Enter your username: ")
@@ -25,7 +25,7 @@ then
     exit_if_error "Error setting global email"
 fi
 
-yes_or_no "Do you want to generate ssh keys?"
+yes_or_no "Do you want to generate ssh keys for github?"
 GENERATESSHKEYS=$?
 
 while [ $GENERATESSHKEYS -eq 0 ]
@@ -71,6 +71,7 @@ do
         ls -l "$HOME/.ssh"
         exit_if_error "Error reading ssh config"
         echo_info "Do not forget to add generated ssh keys to your github account using following instruction: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account"
+        press_any_key
     fi
 done
 

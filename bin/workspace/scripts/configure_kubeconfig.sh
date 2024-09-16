@@ -14,7 +14,7 @@ echo_info "Configure kubectl to use k3s"
 
 if [ -e /etc/rancher/k3s/k3s.yaml ]
 then
-    yes_or_no "Do you want to configure kubectl to use k3s?"
+    yes_or_no "Do you want to configure kubectl to use k3s?" "$AUTOMATIC_MODE"
     if [[ $? -eq 0 ]]
     then
         echo_message "Configuring kubectl to use k3s"

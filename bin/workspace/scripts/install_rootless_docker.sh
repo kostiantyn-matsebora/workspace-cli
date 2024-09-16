@@ -14,7 +14,7 @@ source "$DIR/_functions.sh"
 
 AUTOMATIC_MODE=$(is_automatic_mode "$1")
 
-echo_info "Installing and configuring rootless docker and docler-compose"
+echo_info "Installing and configuring rootless docker and docker-compose"
 
 yes_or_no "Do you want to install rootless docker (roothless docker + containerd + buildkit)?" "$AUTOMATIC_MODE"
 

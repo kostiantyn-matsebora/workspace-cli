@@ -18,7 +18,7 @@ INSTALL_VALS=0
 if [ -e /usr/local/bin/vals ]
 then
  echo_message "Vals is already installed."
- yes_or_no "Do you want to reinstall/upgrade it?" "$AUTOMATIC_MODE"
+ yes_or_no "Do you want to reinstall/upgrade vals?" "$AUTOMATIC_MODE"
  INSTALL_VALS=$?
 else 
  yes_or_no "Do you want to install vals?" "$AUTOMATIC_MODE"

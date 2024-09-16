@@ -33,10 +33,14 @@ else
 fi
 
 yes_or_no "Do you want to install shellcheck?" "$AUTOMATIC_MODE"
-exit_if_answer_no
 
-echo_message "Installing shellcheck"
+if [[ $? -eq 0 ]] 
+then
+    echo_message "Installing shellcheck"
+    sudo apt update &&
+    sudo apt install -y shellcheck
+else
+    echo_message "Skipping shellcheck installation"
+fi
 
-sudo apt update &&
-sudo apt install -y shellcheck
 

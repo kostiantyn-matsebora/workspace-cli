@@ -22,7 +22,7 @@ INSTALL_KUBECTL=0
 if [ -e /usr/local/bin/kubectl ]
 then
  echo_message "Kubectl is already installed."
- yes_or_no "Do you want to reinstall/upgrade it?" "$AUTOMATIC_MODE"
+ yes_or_no "Do you want to reinstall/upgrade kubectl?" "$AUTOMATIC_MODE"
  INSTALL_KUBECTL=$?
 fi
 
@@ -48,7 +48,7 @@ INSTALL_HELM=0
 if [ -e /usr/local/bin/helm ]
 then
  echo_message "Helm is already installed."
- yes_or_no "Do you want to reinstall/upgrade it?" "$AUTOMATIC_MODE"
+ yes_or_no "Do you want to reinstall/upgrade helm?" "$AUTOMATIC_MODE"
  INSTALL_HELM=$?
 fi
 
@@ -82,7 +82,7 @@ INSTALL_HELMFILE=0
 if [ -e /usr/local/bin/helmfile ]
 then
  echo_message "Helmfile is already installed."
- yes_or_no "Do you want to reinstall/upgrade it?" "$AUTOMATIC_MODE"
+ yes_or_no "Do you want to reinstall/upgrade helmfile?" "$AUTOMATIC_MODE"
  INSTALL_HELMFILE=$?
 else 
  yes_or_no "Do you want to install helmfile?" "$AUTOMATIC_MODE"
