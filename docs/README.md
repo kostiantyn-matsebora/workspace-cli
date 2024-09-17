@@ -19,7 +19,7 @@ To install workspace CLI you simply must do the following steps:
 
   ```Bash
     mkdir -p $HOME/bin
-    wget https://raw.githubusercontent.com/kostiantyn-matsebora/workspace-cli/master/release/workspace -O $HOME/bin
+    wget https://raw.githubusercontent.com/kostiantyn-matsebora/workspace-cli/master/release/workspace -O $HOME/bin/workspace
     chmod +x $HOME/bin/workspace
   ```
 
