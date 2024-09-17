@@ -1,40 +1,35 @@
 #!/bin/bash
 inspect_args
-WORKSPACE_DIR="$(workspace_dir)"
-
 WORKSPACE_APP="$(workspace_app)"
 WORKSPACE_YES="$(workspace_yes)"
-WORKSPACE_AUTOMATIC="$(workspace_automatic)"
-
-
 
 case "$WORKSPACE_APP" in
   "git")
-    setup_git
+    install_git_toolkit "$WORKSPACE_YES"
     ;;
   "docker")
-    install_docker
+    install_rootless_docker "$WORKSPACE_YES"
     ;;
   "k3s")
     setup_k3s
     ;;
   "minikube")
-     install_minikube
+     install_minikube "$WORKSPACE_YES"
      ;;
   "kube-tools")
-     setup_kubernetes_toolkit
+     setup_kubernetes_toolkit "$WORKSPACE_YES"
      ;;
   "vals")
-     setup_vals
+     setup_vals "$WORKSPACE_YES"
      ;; 
   "vscode")
-     install_vscode
+     install_vscode "$WORKSPACE_YES"
      ;;
   "all")
-     setup_git &&
-     install_vscode &&
-     install_docker &&
-     setup_k3s &&
-     setup_kubernetes_toolkit &&
-     setup_vals
+     install_git_toolkit "$WORKSPACE_YES" &&
+     install_vscode "$WORKSPACE_YES" &&
+     install_rootless_docker "$WORKSPACE_YES" &&
+     setup_k3s "$WORKSPACE_YES" &&
+     setup_kubernetes_toolkit "$WORKSPACE_YES" &&
+     setup_vals "$WORKSPACE_YES"
 esac

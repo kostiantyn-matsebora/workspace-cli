@@ -15,22 +15,18 @@ Functionality includes installation and configuration of the following applicati
 
 To install workspace CLI you simply must do the following steps:
 
-- Download the archive with sources and extract to the destination directory, for instance `$HOME/bin/workspace`: 
+- Download workspace script the destination directory, for instance `$HOME/bin`: 
 
   ```Bash
-    mkdir -p $HOME/bin/workspace
-    wget -O https://github.com/kostiantyn-matsebora/workspace/archive/refs/heads/master.zip
-    unzip master.zip -d $HOME/bin/workspace
-    chmod +x $HOME/bin/workspace/workspace
-
-    # Cleanup
-    rm master.zip
+    mkdir -p $HOME/bin
+    wget https://raw.githubusercontent.com/kostiantyn-matsebora/workspace-cli/master/release/workspace -O $HOME/bin
+    chmod +x $HOME/bin/workspace
   ```
 
 - Add an alias to your `.bashrc` or `.bash_profile` file:
 
   ```Bash
-  echo "alias workspace='$HOME/bin/workspace/workspace'" >> $HOME/.bashrc
+  echo "alias workspace='$HOME/bin/workspace'" >> $HOME/.bashrc
   ```
 
 - Reload your shell:
