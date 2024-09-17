@@ -1,7 +1,5 @@
 #!/bin/bash
 
-## Functions library
-
 timestamp() {
   date +%F_%T # current date and time
 }

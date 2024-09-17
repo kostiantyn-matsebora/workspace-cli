@@ -16,10 +16,10 @@ source_dir: .
 config_path: "%{source_dir}/bashly/bashly.yml"
 
 # The path to use for creating the bash script
-target_dir: .
+target_dir: release
 
 # The path to use for common library files, relative to source_dir
-lib_dir: bashly/lib
+lib_dir: src
 
 # The path to use for command files, relative to source_dir
 # When set to nil (~), command files will be placed directly under source_dir

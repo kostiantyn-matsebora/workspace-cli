@@ -1,6 +1,6 @@
 name: workspace
 help: Workspace cli
-version: 0.2.0
+version: 0.3.0
 
 commands:
 - name: setup
@@ -32,7 +32,7 @@ commands:
       Possible values: all, git, kubeconfig, vals.
       
   examples:
-  - workspace config git // Configuregit
+  - workspace config git // Configure git toolkit
   - workspace config all // Configure all applications
 
 - name: install
