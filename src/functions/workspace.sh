@@ -12,4 +12,15 @@ workspace_yes() {
     fi
 }
 
+workspace_setup_flag() {
+    echo "${args[--setup]}"
+}
 
+workspace_install_flag() {
+    echo "${args[--install]}"
+
+}
+
+workspace_config_flag() {
+    echo "${args[--config]}"
+}

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-setup_git() {
-    install_git $1 &&
+setup_git_toolkit() {
+    install_git_toolkit $1 &&
     config_git
 }
 

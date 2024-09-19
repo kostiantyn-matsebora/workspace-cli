@@ -5,7 +5,7 @@ WORKSPACE_YES="$(workspace_yes)"
 
 case "$WORKSPACE_APP" in
   "git")
-    install_git_toolkit "$WORKSPACE_YES"
+    setup_git_toolkit "$WORKSPACE_YES"
     ;;
   "docker")
     install_rootless_docker "$WORKSPACE_YES"
@@ -26,7 +26,7 @@ case "$WORKSPACE_APP" in
      install_vscode "$WORKSPACE_YES"
      ;;
   "all")
-     install_git_toolkit "$WORKSPACE_YES" &&
+     setup_git_toolkit "$WORKSPACE_YES" &&
      install_vscode "$WORKSPACE_YES" &&
      install_rootless_docker "$WORKSPACE_YES" &&
      setup_k3s "$WORKSPACE_YES" &&

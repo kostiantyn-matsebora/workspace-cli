@@ -9,7 +9,7 @@
 
 # Include functions
 install_git_toolkit() {
-
+    echo "$1"
     AUTOMATIC_MODE=$(is_automatic_mode "$1")
 
     echo_info "Installing git and github CLI"
