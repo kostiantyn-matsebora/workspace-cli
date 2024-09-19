@@ -1,6 +1,6 @@
 name: workspace
 help: Workspace cli
-version: 0.3.0
+version: 0.4.0
 
 commands:
 - name: setup
@@ -51,8 +51,27 @@ commands:
     short: -y
     help: Automatic mode, does not require interactive input. Useful for CI/CD environments and automation scripts.
 
+- name: git
+  help: Install and configure git toolkit
+  flags: 
+  - long: --setup
+    short: -s
+    help: Install and configure git toolkit. If set, --install and --configure flags are ignored.
+  - long: --install
+    short: -i
+    help: Install git toolkit
+  - long: --config
+    short: -c
+    help: Configure git toolkit
+  - long: --yes
+    short: -y
+    help: Automatic mode, does not require interactive input. Applicable only to --install option. Useful for CI/CD environments and automation scripts.
+
   examples:
   - workspace install git // Install git, interactive mode
   - workspace install all -y // Install all applications, automatic mode
+  - workspace git --setup // Install and configure git toolkit
+  - workspace git --install // Only install git toolkit
+
 
 

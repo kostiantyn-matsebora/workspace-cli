@@ -29,6 +29,7 @@ workspace_usage() {
   printf "  %s   Setup (install and configure) workspace. Some of steps require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n" "setup  "
   printf "  %s   Configure workspace. Applications needs to be already installed. Some of steps require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n" "config "
   printf "  %s   Install applications and tools required for workspace. Does not require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n" "install"
+  printf "  %s   Install and configure git toolkit\n" "git    "
   echo
 
   # :command.long_usage
@@ -164,10 +165,54 @@ workspace_install_usage() {
     printf "    Application or toolkit needs to be installed. Possible values: all, git,\n    docker, k3s, minikube, kube-tools, vscode, vals\n"
     echo
 
+  fi
+}
+
+# :command.usage
+workspace_git_usage() {
+  printf "workspace git - Install and configure git toolkit\n\n"
+
+  printf "%s\n" "Usage:"
+  printf "  workspace git [OPTIONS]\n"
+  printf "  workspace git --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "--setup, -s"
+    printf "    Install and configure git toolkit. If set, --install and --configure flags\n    are ignored.\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "--install, -i"
+    printf "    Install git toolkit\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "--config, -c"
+    printf "    Configure git toolkit\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "--yes, -y"
+    printf "    Automatic mode, does not require interactive input. Applicable only to\n    --install option. Useful for CI/CD environments and automation scripts.\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
     # :command.usage_examples
     printf "%s\n" "Examples:"
     printf "  workspace install git // Install git, interactive mode\n"
     printf "  workspace install all -y // Install all applications, automatic mode\n"
+    printf "  workspace git --setup // Install and configure git toolkit\n"
+    printf "  workspace git --install // Only install git toolkit\n"
     echo
 
   fi
@@ -465,7 +510,7 @@ install_bashly() {
 
 # Include functions
 install_git_toolkit() {
-
+    echo "$1"
     AUTOMATIC_MODE=$(is_automatic_mode "$1")
 
     echo_info "Installing git and github CLI"
@@ -837,8 +882,8 @@ cyan_underlined() { print_in_color "\e[4;36m" "$*"; }
 # ./src/functions/setup.sh
 #!/bin/bash
 
-setup_git() {
-    install_git $1 &&
+setup_git_toolkit() {
+    install_git_toolkit $1 &&
     config_git
 }
 
@@ -984,6 +1029,19 @@ workspace_yes() {
     fi
 }
 
+workspace_setup_flag() {
+    echo "${args[--setup]}"
+}
+
+workspace_install_flag() {
+    echo "${args[--install]}"
+
+}
+
+workspace_config_flag() {
+    echo "${args[--config]}"
+}
+
 # :command.command_functions
 # :command.function
 workspace_setup_command() {
@@ -995,7 +1053,7 @@ workspace_setup_command() {
 
   case "$WORKSPACE_APP" in
     "git")
-      install_git_toolkit "$WORKSPACE_YES"
+      setup_git_toolkit "$WORKSPACE_YES"
       ;;
     "docker")
       install_rootless_docker "$WORKSPACE_YES"
@@ -1017,7 +1075,7 @@ workspace_setup_command() {
        install_vscode "$WORKSPACE_YES"
        ;;
     "all")
-       install_git_toolkit "$WORKSPACE_YES" &&
+       setup_git_toolkit "$WORKSPACE_YES" &&
        install_vscode "$WORKSPACE_YES" &&
        install_rootless_docker "$WORKSPACE_YES" &&
        setup_k3s "$WORKSPACE_YES" &&
@@ -1101,6 +1159,27 @@ workspace_install_command() {
 
 }
 
+# :command.function
+workspace_git_command() {
+  # ./bashly/commands/git.sh
+  #!/bin/bash
+
+  WORKSPACE_YES="$(workspace_yes)"
+
+  if [[ "$(workspace_setup_flag)" == 1 ]]; then
+  	setup_git_toolkit
+  else
+
+  	if [[ "$(workspace_install_flag)"  == 1 ]]; then
+  		install_git_toolkit "$WORKSPACE_YES"
+  	fi
+  	 if [[ "$(workspace_config_flag)" == 1 ]]; then
+  		configure_git
+  	fi
+  fi
+
+}
+
 # :command.parse_requirements
 parse_requirements() {
   # :command.fixed_flags_filter
@@ -1148,6 +1227,13 @@ parse_requirements() {
       action="install"
       shift
       workspace_install_parse_requirements "$@"
+      shift $#
+      ;;
+
+    git)
+      action="git"
+      shift
+      workspace_git_parse_requirements "$@"
       shift $#
       ;;
 
@@ -1344,9 +1430,84 @@ workspace_install_parse_requirements() {
 
 }
 
+# :command.parse_requirements
+workspace_git_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_git_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="git"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --setup | -s)
+
+        # :flag.case_no_arg
+        args['--setup']=1
+        shift
+        ;;
+
+      # :flag.case
+      --install | -i)
+
+        # :flag.case_no_arg
+        args['--install']=1
+        shift
+        ;;
+
+      # :flag.case
+      --config | -c)
+
+        # :flag.case_no_arg
+        args['--config']=1
+        shift
+        ;;
+
+      # :flag.case
+      --yes | -y)
+
+        # :flag.case_no_arg
+        args['--yes']=1
+        shift
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
 # :command.initialize
 initialize() {
-  version="0.2.0"
+  version="0.3.0"
   long_usage=''
 
 }
@@ -1365,6 +1526,7 @@ run() {
     "setup") workspace_setup_command ;;
     "config") workspace_config_command ;;
     "install") workspace_install_command ;;
+    "git") workspace_git_command ;;
   esac
 }
 

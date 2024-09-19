@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog],
 and this project adheres to [Semantic Versioning].
 
+## [0.4.0] - 2024-09-19
+
+### Added
+
+- Git command
+
+### Fixed
+
+- Fixed bug with the `setup/install/configure git` commands
+
 ## [0.3.0] - 2024-09-17
 
 ### Changed
