@@ -1,0 +1,14 @@
+name: cli
+help: Install CLI  generation tool - bashly.
+commands:
+  - name: install
+    help: Install bashly
+    flags: 
+    - long: --yes
+      short: -y
+      help: Automatic mode, does not require interactive input. Applicable only to install option. Useful for CI/CD environments and automation scripts.
+
+examples:
+- workspace cli install -y // Install bashly in automatic mode
+
+

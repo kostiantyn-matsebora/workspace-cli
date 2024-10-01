@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog],
 and this project adheres to [Semantic Versioning].
 
+## [0.5.0] - 2024-10-01
+
+### Added
+
+- Generated documentation
+- Commands per feature
+- Colors for output
+- Howdy installation and configuration
+
+## Changed
+
+- Files structure
+- Split bashly.yml into separate files
+- Updated documentation
+
+
 ## [0.4.0] - 2024-09-19
 
 ### Added

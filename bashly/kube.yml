@@ -1,0 +1,27 @@
+name: kube
+help: Kubernetes installation and configuration
+commands:
+  - name: install
+    help: Install single node kubernetes cluster
+    args:
+    - name: distro
+      help: >
+       Kubernetes distribution to be installed.
+      allowed: [k3s, minikube]
+      required: true
+    flags: 
+    - long: --yes
+      short: -y
+      help: Automatic mode, does not require interactive input. Applicable only to install option. Useful for CI/CD environments and automation scripts.
+  
+  - name: show-config
+    help: Show kubernetes configuration file
+
+  - name: apply-k3s-config
+    help: Replacing ~/.kube/config file by k3s configuration file
+
+examples:
+- workspace kube install k3s -y // Install k3s in automatic mode
+- workspace kube install minikube // Install minikube, interactive mode
+- workspace kube show-config // Show kubernetes configuration file
+

@@ -1,0 +1,14 @@
+name: system
+help: System maintenance utilities
+commands:
+  - name: upgrade
+    help: Upgrade system packages to latest version
+  - name: cleanup
+    help: Clean system cache and remove journal logs older than 3 days to free up disk space
+  - name: beautify-grub-menu
+    help: Beautify grub menu, applicable only for Linux Mint
+
+examples:
+- workspace system upgrade // Install kubernetes CLI tools in automatic mode
+
+

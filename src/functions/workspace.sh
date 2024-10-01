@@ -1,7 +1,7 @@
 #!/bin/bash
 workspace_app() {
     local WORKSPACE_APP="${args[application]}"
-    echo $WORKSPACE_APP
+    echo "$WORKSPACE_APP"
 }
 
 workspace_yes() {
@@ -23,4 +23,9 @@ workspace_install_flag() {
 
 workspace_config_flag() {
     echo "${args[--config]}"
+}
+
+workspace_distro() {
+    local WORKSPACE_DISTRO="${args[distro]}"
+    echo "$WORKSPACE_DISTRO"
 }

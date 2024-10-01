@@ -1,0 +1,23 @@
+name: vals
+help: Install and configure vals
+commands:
+  - name: setup
+    help: Install and configure vals
+    flags: []
+  - name: install
+    help: Install vals
+    flags: 
+    - long: --yes
+      short: -y
+      help: Automatic mode, does not require interactive input. Applicable only to --install option. Useful for CI/CD environments and automation scripts.
+  - name: config
+    help: Configure vals for using HashiCorp Vault for getting secrets
+    flags: []
+    dependencies:
+    - vals
+
+
+examples:
+- workspace vals setup // Install and configure git toolkit
+- workspace vals install -y // Install git toolkit, automatic mode
+- workspace vals config // Configure git toolkit

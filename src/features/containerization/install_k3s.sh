@@ -8,7 +8,7 @@
 install_k3s() {
     AUTOMATIC_MODE=$(is_automatic_mode "$1")
 
-    echo_info "Installing and configuring k3s" 
+    echo_info "Installing k3s" 
 
     yes_or_no "Do you want to install k3s?" "$AUTOMATIC_MODE"
 

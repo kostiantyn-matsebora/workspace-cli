@@ -1,0 +1,22 @@
+name: howdy
+help: Install and configure pluggable authentication module (PAM) howdy for facial recognition
+commands:
+  - name: setup
+    help: Install and configure howdy
+    flags: []
+  - name: install
+    help: Install howdy
+    flags: 
+    - long: --yes
+      short: -y
+      help: Automatic mode, does not require interactive input. Applicable only to install option. Useful for CI/CD environments and automation scripts.
+  - name: config
+    help: Configure howdy
+    flags: []
+    dependencies:
+    - howdy
+    - v4l-utils
+examples:
+- workspace howdy setup // Install and configure howdy
+- workspace howdy install -y // Install howdy, automatic mode
+- workspace howdy config // Configure howdy
