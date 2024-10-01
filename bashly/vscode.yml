@@ -1,0 +1,14 @@
+name: vscode
+help: Visual Studio Code installation and configuration
+commands:
+  - name: install
+    help: Install VsCode and shellcheck
+    flags: 
+    - long: --yes
+      short: -y
+      help: Automatic mode, does not require interactive input. Applicable only to install option. Useful for CI/CD environments and automation scripts.
+
+examples:
+- workspace vscode install -y // Install VsCode and shellcheck in automatic mode
+
+

@@ -37,7 +37,7 @@ echo_error(){
 
 function question(){
     local MESSAGE
-    MESSAGE=$(green_bold "[$(timestamp)] $1\n")  
+    MESSAGE=$(green_bold "[$(timestamp)] $1")  
     read -sn 1 -r -p "$MESSAGE" ANSWER
     echo  "$ANSWER"
 }
@@ -72,6 +72,7 @@ function yes_or_no(){
 
     local ANSWER
     ANSWER=$(question "$1 [y/n]")
+    echo "$ANSWER"
     if [[ "$ANSWER" = "y" || "$ANSWER" = "Y" ]]
     then
         return 0

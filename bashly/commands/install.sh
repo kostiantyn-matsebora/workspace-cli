@@ -1,3 +1,5 @@
+#!/bin/bash
+
 WORKSPACE_APP="$(workspace_app)"
 WORKSPACE_YES="$(workspace_yes)"
 

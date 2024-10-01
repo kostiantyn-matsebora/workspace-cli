@@ -13,7 +13,7 @@ setup_kubernetes_toolkit() {
 
 setup_k3s() {
     install_k3s $1 && 
-    config_kubeconfig
+    apply_k3s_config
     
 }
 

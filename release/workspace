@@ -17,110 +17,42 @@ version_command() {
 
 # :command.usage
 workspace_usage() {
-  printf "workspace - Workspace cli\n\n"
+  printf "workspace - CLI that provides functionality for installing and configuring workspace for a software engineer/DevOps.\n\n"
 
-  printf "%s\n" "Usage:"
+  printf "%s\n" "$(bold "Usage:")"
   printf "  workspace COMMAND\n"
   printf "  workspace [COMMAND] --help | -h\n"
   printf "  workspace --version | -v\n"
   echo
   # :command.usage_commands
-  printf "%s\n" "Commands:"
-  printf "  %s   Setup (install and configure) workspace. Some of steps require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n" "setup  "
-  printf "  %s   Configure workspace. Applications needs to be already installed. Some of steps require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n" "config "
-  printf "  %s   Install applications and tools required for workspace. Does not require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n" "install"
-  printf "  %s   Install and configure git toolkit\n" "git    "
+  printf "%s\n" "$(bold "Commands:")"
+  printf "  %s   Install applications and tools required for workspace. Does not require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n" "$(green "install")   "
+  printf "  %s   Setup (install and configure) workspace. Require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n" "$(green "setup")     "
+  printf "  %s   Configure workspace. Applications needs to be already installed. Some of steps require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n" "$(green "config")    "
+  printf "  %s   Install and configure git toolkit\n" "$(green "git")       "
+  printf "  %s   Install rootless docker\n" "$(green "docker")    "
+  printf "  %s   Install and configure pluggable authentication module (PAM) howdy for facial recognition\n" "$(green "howdy")     "
+  printf "  %s   Kubernetes installation and configuration\n" "$(green "kube")      "
+  printf "  %s   Kubernetes CLI tools installation and configuration\n" "$(green "kube-tools")"
+  printf "  %s   Visual Studio Code installation and configuration\n" "$(green "vscode")    "
+  printf "  %s   Install and configure vals\n" "$(green "vals")      "
+  printf "  %s   System maintenance utilities\n" "$(green "system")    "
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
-    printf "  %s\n" "--help, -h"
+    printf "  %s\n" "$(magenta "--help, -h")"
     printf "    Show this help\n"
     echo
-    printf "  %s\n" "--version, -v"
+    printf "  %s\n" "$(magenta "--version, -v")"
     printf "    Show version number\n"
     echo
 
-  fi
-}
-
-# :command.usage
-workspace_setup_usage() {
-  if [[ -n $long_usage ]]; then
-    printf "workspace setup\n\n"
-    printf "  Setup (install and configure) workspace. Some of steps require interactive\n  input, so this command cannot be used in CI/CD environments and automation\n  scripts.\n\n"
-  else
-    printf "workspace setup - Setup (install and configure) workspace. Some of steps require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n\n"
-  fi
-  printf "Alias: s\n"
-  echo
-
-  printf "%s\n" "Usage:"
-  printf "  workspace setup [APPLICATION]\n"
-  printf "  workspace setup --help | -h\n"
-  echo
-
-  # :command.long_usage
-  if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
-
-    # :command.usage_fixed_flags
-    printf "  %s\n" "--help, -h"
-    printf "    Show this help\n"
-    echo
-
-    # :command.usage_args
-    printf "%s\n" "Arguments:"
-
-    # :argument.usage
-    printf "  %s\n" "APPLICATION"
-    printf "    Application  or toolkit needs to be setup. Possible values: all, git,\n    docker, k3s, minikube, kube-tools, vscode, vals\n"
-    echo
-
-    # :command.usage_examples
-    printf "%s\n" "Examples:"
-    printf "  workspace setup git // Install and configure git\n"
-    printf "  workspace setup all // Install and configure all applications\n"
-    echo
-
-  fi
-}
-
-# :command.usage
-workspace_config_usage() {
-  printf "workspace config - Configure workspace. Applications needs to be already installed. Some of steps require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n\n"
-  printf "Alias: c\n"
-  echo
-
-  printf "%s\n" "Usage:"
-  printf "  workspace config [APPLICATION]\n"
-  printf "  workspace config --help | -h\n"
-  echo
-
-  # :command.long_usage
-  if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
-
-    # :command.usage_fixed_flags
-    printf "  %s\n" "--help, -h"
-    printf "    Show this help\n"
-    echo
-
-    # :command.usage_args
-    printf "%s\n" "Arguments:"
-
-    # :argument.usage
-    printf "  %s\n" "APPLICATION"
-    printf "    Application or toolkit needs to be configured. Possible values: all, git,\n    kubeconfig, vals.\n"
-    echo
-
-    # :command.usage_examples
-    printf "%s\n" "Examples:"
-    printf "  workspace config git // Configure git toolkit\n"
-    printf "  workspace config all // Configure all applications\n"
+    # :command.footer
+    printf "For autocompletion, run: $ eval \"$(workspace completions)\"\n\nMIT License: https://github.com/kostiantyn-matsebora/workspace-cli/blob/master/LICENSE\nCopyright (c) 2024 Kostiantyn Matsebora\n\n"
     echo
 
   fi
@@ -137,32 +69,108 @@ workspace_install_usage() {
   printf "Alias: i\n"
   echo
 
-  printf "%s\n" "Usage:"
-  printf "  workspace install [APPLICATION] [OPTIONS]\n"
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace install APPLICATION [OPTIONS]\n"
   printf "  workspace install --help | -h\n"
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_flags
     # :flag.usage
-    printf "  %s\n" "--yes, -y"
+    printf "  %s\n" "$(magenta "--yes, -y")"
     printf "    Automatic mode, does not require interactive input. Useful for CI/CD\n    environments and automation scripts.\n"
     echo
 
     # :command.usage_fixed_flags
-    printf "  %s\n" "--help, -h"
+    printf "  %s\n" "$(magenta "--help, -h")"
     printf "    Show this help\n"
     echo
 
     # :command.usage_args
-    printf "%s\n" "Arguments:"
+    printf "%s\n" "$(bold "Arguments:")"
 
     # :argument.usage
-    printf "  %s\n" "APPLICATION"
-    printf "    Application or toolkit needs to be installed. Possible values: all, git,\n    docker, k3s, minikube, kube-tools, vscode, vals\n"
+    printf "  %s\n" "$(blue "APPLICATION")"
+    printf "    Application or toolkit needs to be installed.\n"
+    printf "    %s\n" "Allowed: all, git, docker, k3s, minikube, kube-tools, vscode, vals"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_setup_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "workspace setup\n\n"
+    printf "  Setup (install and configure) workspace. Require interactive input, so this\n  command cannot be used in CI/CD environments and automation scripts.\n\n"
+  else
+    printf "workspace setup - Setup (install and configure) workspace. Require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n\n"
+  fi
+  printf "Alias: s\n"
+  echo
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace setup [APPLICATION]\n"
+  printf "  workspace setup --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "$(bold "Arguments:")"
+
+    # :argument.usage
+    printf "  %s\n" "$(blue "APPLICATION")"
+    printf "    Application or toolkit needs to be installed.\n"
+    printf "    %s\n" "Allowed: all, git, docker, k3s, minikube, kube-tools, vscode, vals"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_config_usage() {
+  printf "workspace config - Configure workspace. Applications needs to be already installed. Some of steps require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n\n"
+  printf "Alias: c\n"
+  echo
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace config [APPLICATION]\n"
+  printf "  workspace config --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "$(bold "Arguments:")"
+
+    # :argument.usage
+    printf "  %s\n" "$(blue "APPLICATION")"
+    printf "    Application or toolkit needs to be configured.\n"
+    printf "    %s\n" "Allowed: all, git, kubeconfig, vals"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "$(bold "Examples:")"
+    printf "  workspace config git // Configure git toolkit\n"
+    printf "  workspace config all // Configure all applications\n"
     echo
 
   fi
@@ -172,47 +180,689 @@ workspace_install_usage() {
 workspace_git_usage() {
   printf "workspace git - Install and configure git toolkit\n\n"
 
-  printf "%s\n" "Usage:"
-  printf "  workspace git [OPTIONS]\n"
-  printf "  workspace git --help | -h\n"
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace git COMMAND\n"
+  printf "  workspace git [COMMAND] --help | -h\n"
+  echo
+  # :command.usage_commands
+  printf "%s\n" "$(bold "Setup Commands:")"
+  printf "  %s   Install and configure git toolkit\n" "$(green "setup")  "
+  echo
+  printf "%s\n" "$(bold "Install Commands:")"
+  printf "  %s   Install git toolkit\n" "$(green "install")"
+  echo
+  printf "%s\n" "$(bold "Configuration Commands:")"
+  printf "  %s   Configure git toolkit\n" "$(green "config") "
   echo
 
   # :command.long_usage
   if [[ -n "$long_usage" ]]; then
-    printf "%s\n" "Options:"
-
-    # :command.usage_flags
-    # :flag.usage
-    printf "  %s\n" "--setup, -s"
-    printf "    Install and configure git toolkit. If set, --install and --configure flags\n    are ignored.\n"
-    echo
-
-    # :flag.usage
-    printf "  %s\n" "--install, -i"
-    printf "    Install git toolkit\n"
-    echo
-
-    # :flag.usage
-    printf "  %s\n" "--config, -c"
-    printf "    Configure git toolkit\n"
-    echo
-
-    # :flag.usage
-    printf "  %s\n" "--yes, -y"
-    printf "    Automatic mode, does not require interactive input. Applicable only to\n    --install option. Useful for CI/CD environments and automation scripts.\n"
-    echo
+    printf "%s\n" "$(bold "Options:")"
 
     # :command.usage_fixed_flags
-    printf "  %s\n" "--help, -h"
+    printf "  %s\n" "$(magenta "--help, -h")"
     printf "    Show this help\n"
     echo
 
     # :command.usage_examples
-    printf "%s\n" "Examples:"
-    printf "  workspace install git // Install git, interactive mode\n"
-    printf "  workspace install all -y // Install all applications, automatic mode\n"
-    printf "  workspace git --setup // Install and configure git toolkit\n"
-    printf "  workspace git --install // Only install git toolkit\n"
+    printf "%s\n" "$(bold "Examples:")"
+    printf "  workspace git setup // Install and configure git toolkit\n"
+    printf "  workspace git install -y // Install git toolkit, automatic mode\n"
+    printf "  workspace git config // Configure git toolkit\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_git_setup_usage() {
+  printf "workspace git setup - Install and configure git toolkit\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace git setup\n"
+  printf "  workspace git setup --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_git_install_usage() {
+  printf "workspace git install - Install git toolkit\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace git install [OPTIONS]\n"
+  printf "  workspace git install --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "$(magenta "--yes, -y")"
+    printf "    Automatic mode, does not require interactive input. Applicable only to\n    --install option. Useful for CI/CD environments and automation scripts.\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_git_config_usage() {
+  printf "workspace git config - Configure git toolkit\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace git config\n"
+  printf "  workspace git config --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_docker_usage() {
+  printf "workspace docker - Install rootless docker\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace docker COMMAND\n"
+  printf "  workspace docker [COMMAND] --help | -h\n"
+  echo
+  # :command.usage_commands
+  printf "%s\n" "$(bold "Install Commands:")"
+  printf "  %s   Install rootless docker\n" "$(green "install")"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "$(bold "Examples:")"
+    printf "  workspace docker install // Install and configure docker\n"
+    printf "  workspace docker install -y // Install docker, automatic mode\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_docker_install_usage() {
+  printf "workspace docker install - Install rootless docker\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace docker install [OPTIONS]\n"
+  printf "  workspace docker install --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "$(magenta "--yes, -y")"
+    printf "    Automatic mode, does not require interactive input. Applicable only to\n    install option. Useful for CI/CD environments and automation scripts.\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_howdy_usage() {
+  printf "workspace howdy - Install and configure pluggable authentication module (PAM) howdy for facial recognition\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace howdy COMMAND\n"
+  printf "  workspace howdy [COMMAND] --help | -h\n"
+  echo
+  # :command.usage_commands
+  printf "%s\n" "$(bold "Commands:")"
+  printf "  %s   Install and configure howdy\n" "$(green "setup")  "
+  printf "  %s   Install howdy\n" "$(green "install")"
+  printf "  %s   Configure howdy\n" "$(green "config") "
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "$(bold "Examples:")"
+    printf "  workspace howdy setup // Install and configure howdy\n"
+    printf "  workspace howdy install -y // Install howdy, automatic mode\n"
+    printf "  workspace howdy config // Configure howdy\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_howdy_setup_usage() {
+  printf "workspace howdy setup - Install and configure howdy\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace howdy setup\n"
+  printf "  workspace howdy setup --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_howdy_install_usage() {
+  printf "workspace howdy install - Install howdy\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace howdy install [OPTIONS]\n"
+  printf "  workspace howdy install --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "$(magenta "--yes, -y")"
+    printf "    Automatic mode, does not require interactive input. Applicable only to\n    install option. Useful for CI/CD environments and automation scripts.\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_howdy_config_usage() {
+  printf "workspace howdy config - Configure howdy\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace howdy config\n"
+  printf "  workspace howdy config --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_kube_usage() {
+  printf "workspace kube - Kubernetes installation and configuration\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace kube COMMAND\n"
+  printf "  workspace kube [COMMAND] --help | -h\n"
+  echo
+  # :command.usage_commands
+  printf "%s\n" "$(bold "Commands:")"
+  printf "  %s   Install single node kubernetes cluster\n" "$(green "install")         "
+  printf "  %s   Show kubernetes configuration file\n" "$(green "show-config")     "
+  printf "  %s   Replacing ~/.kube/config file by k3s configuration file\n" "$(green "apply-k3s-config")"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "$(bold "Examples:")"
+    printf "  workspace kube install k3s -y // Install k3s in automatic mode\n"
+    printf "  workspace kube install minikube // Install minikube, interactive mode\n"
+    printf "  workspace kube show-config // Show kubernetes configuration file\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_kube_install_usage() {
+  printf "workspace kube install - Install single node kubernetes cluster\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace kube install DISTRO [OPTIONS]\n"
+  printf "  workspace kube install --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "$(magenta "--yes, -y")"
+    printf "    Automatic mode, does not require interactive input. Applicable only to\n    install option. Useful for CI/CD environments and automation scripts.\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "$(bold "Arguments:")"
+
+    # :argument.usage
+    printf "  %s\n" "$(blue "DISTRO")"
+    printf "    Kubernetes distribution to be installed.\n"
+    printf "    %s\n" "Allowed: k3s, minikube"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_kube_show_config_usage() {
+  printf "workspace kube show-config - Show kubernetes configuration file\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace kube show-config\n"
+  printf "  workspace kube show-config --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_kube_apply_k3s_config_usage() {
+  printf "workspace kube apply-k3s-config - Replacing ~/.kube/config file by k3s configuration file\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace kube apply-k3s-config\n"
+  printf "  workspace kube apply-k3s-config --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_kube_tools_usage() {
+  printf "workspace kube-tools - Kubernetes CLI tools installation and configuration\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace kube-tools COMMAND\n"
+  printf "  workspace kube-tools [COMMAND] --help | -h\n"
+  echo
+  # :command.usage_commands
+  printf "%s\n" "$(bold "Commands:")"
+  printf "  %s   Install kubernetes tools such as  kubectl, helm, helmfile\n" "$(green "install")"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "$(bold "Examples:")"
+    printf "  workspace kube-tools install -y // Install kubernetes CLI tools in automatic\n  mode\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_kube_tools_install_usage() {
+  printf "workspace kube-tools install - Install kubernetes tools such as  kubectl, helm, helmfile\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace kube-tools install [OPTIONS]\n"
+  printf "  workspace kube-tools install --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "$(magenta "--yes, -y")"
+    printf "    Automatic mode, does not require interactive input. Applicable only to\n    install option. Useful for CI/CD environments and automation scripts.\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_vscode_usage() {
+  printf "workspace vscode - Visual Studio Code installation and configuration\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace vscode COMMAND\n"
+  printf "  workspace vscode [COMMAND] --help | -h\n"
+  echo
+  # :command.usage_commands
+  printf "%s\n" "$(bold "Commands:")"
+  printf "  %s   Install VsCode and shellcheck\n" "$(green "install")"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "$(bold "Examples:")"
+    printf "  workspace vscode install -y // Install VsCode and shellcheck in automatic mode\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_vscode_install_usage() {
+  printf "workspace vscode install - Install VsCode and shellcheck\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace vscode install [OPTIONS]\n"
+  printf "  workspace vscode install --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "$(magenta "--yes, -y")"
+    printf "    Automatic mode, does not require interactive input. Applicable only to\n    install option. Useful for CI/CD environments and automation scripts.\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_vals_usage() {
+  printf "workspace vals - Install and configure vals\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace vals COMMAND\n"
+  printf "  workspace vals [COMMAND] --help | -h\n"
+  echo
+  # :command.usage_commands
+  printf "%s\n" "$(bold "Commands:")"
+  printf "  %s   Install and configure vals\n" "$(green "setup")  "
+  printf "  %s   Install vals\n" "$(green "install")"
+  printf "  %s   Configure vals for using HashiCorp Vault for getting secrets\n" "$(green "config") "
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "$(bold "Examples:")"
+    printf "  workspace vals setup // Install and configure git toolkit\n"
+    printf "  workspace vals install -y // Install git toolkit, automatic mode\n"
+    printf "  workspace vals config // Configure git toolkit\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_vals_setup_usage() {
+  printf "workspace vals setup - Install and configure vals\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace vals setup\n"
+  printf "  workspace vals setup --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_vals_install_usage() {
+  printf "workspace vals install - Install vals\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace vals install [OPTIONS]\n"
+  printf "  workspace vals install --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "$(magenta "--yes, -y")"
+    printf "    Automatic mode, does not require interactive input. Applicable only to\n    --install option. Useful for CI/CD environments and automation scripts.\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_vals_config_usage() {
+  printf "workspace vals config - Configure vals for using HashiCorp Vault for getting secrets\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace vals config\n"
+  printf "  workspace vals config --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_system_usage() {
+  printf "workspace system - System maintenance utilities\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace system COMMAND\n"
+  printf "  workspace system [COMMAND] --help | -h\n"
+  echo
+  # :command.usage_commands
+  printf "%s\n" "$(bold "Commands:")"
+  printf "  %s   Upgrade system packages to latest version\n" "$(green "upgrade")           "
+  printf "  %s   Clean system cache and remove journal logs older than 3 days to free up disk space\n" "$(green "cleanup")           "
+  printf "  %s   Beautify grub menu, applicable only for Linux Mint\n" "$(green "beautify-grub-menu")"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "$(bold "Examples:")"
+    printf "  workspace system upgrade // Install kubernetes CLI tools in automatic mode\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_system_upgrade_usage() {
+  printf "workspace system upgrade - Upgrade system packages to latest version\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace system upgrade\n"
+  printf "  workspace system upgrade --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_system_cleanup_usage() {
+  printf "workspace system cleanup - Clean system cache and remove journal logs older than 3 days to free up disk space\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace system cleanup\n"
+  printf "  workspace system cleanup --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_system_beautify_grub_menu_usage() {
+  printf "workspace system beautify-grub-menu - Beautify grub menu, applicable only for Linux Mint\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace system beautify-grub-menu\n"
+  printf "  workspace system beautify-grub-menu --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
     echo
 
   fi
@@ -291,153 +941,27 @@ inspect_args() {
 }
 
 # :command.user_lib
-# ./src/actions/cleanup_system.sh
-#! /bin/bash
-
-cleanup_system() {
-	# Running autoremove to remove unnecessary packages
-	echo "Running autoremove"
-	sudo apt-get autoremove -y
-
-	# Removing apt package cache
-	echo "Removing apt package cache"
-	sudo apt-get clean
-
-	# Getting the size of journalctl logs
-	echo "Getting the size of journalctl logs"
-	journalctl --disk-usage
-
-	# Removing journalctl logs older than 3 days
-	echo "Removing journalctl logs older than 3 days"
-	sudo journalctl --vacuum-time=3d
-
-	STACER_INSTALLED="N"
-	# Checking if stacer is installed
-	if [ -e /usr/bin/stacer ]
-	then
-
-		echo "Stacer is installed"
-		STACER_INSTALLED="Y"
-	else
-		read -sn 1 -p "Do you want to install stacer? [y/n]" INSTALL_STACER
-		echo -e "\n"
-		if [[ "$INSTALL_STACER" = "Y" || "$INSTALL_STACER" = "y" ]]
-		then
-			# Installing stacer
-			echo "Installing stacer"
-			sudo apt-get install stacer -y
-			if [ "$?" -eq "0" ]
-			then
-				STACER_INSTALLED="Y"
-			fi
-		fi
-	fi
-
-	if [[ "$STACER_INSTALLED" = "Y" ]]
-	then
-		read -sn 1 -p "Do you want to run stacer to clean up system?" RUN_STACER
-		if [[ "$RUN_STACER" = "Y" || "$RUN_STACER" = "y" ]]
-		then
-			stacer &
-		fi
-	fi
-
-	# Getting list of timeshift snapshots
-	echo "Getting list of timeshift snapshots"
-	sudo timeshift --list
-
-	echo "Use timeshift delete --snapshot 'snapshot_name' to delete a snapshot"
-	echo "Also you can use sudo rm -rfv /timeshift/snapshots/snapshot_name to delete a snapshot"
-}
-
-# ./src/actions/configure/configure_git.sh
+# ./src/features/accounts/sync_onedrive.sh
 #!/bin/bash
 
-configure_git() {
-    echo_info "Configure git"
-
-    yes_or_no "Do you want to set global username and email for git?"
-    if [ $? -eq 0 ]
-    then
-        USERNAME=$(read_input "Enter your username: ")
-        git config --global user.name "$USERNAME"
-        exit_if_error "Error setting global username"
-
-        EMAIL=$(read_input "Enter your email: ")
-        git config --global user.email "$EMAIL"
-        exit_if_error "Error setting global email"
-    fi
-
-    yes_or_no "Do you want to generate ssh keys for github?"
-    GENERATESSHKEYS=$?
-
-    while [ $GENERATESSHKEYS -eq 0 ]
-    do
-        if [ ! -d ~/.ssh ]
-        then
-            mkdir ~/.ssh
-        fi
-        exit_if_error "Error creating ssh directory"
-
-        EMAIL=$(read_input "Enter your email: ")
-        FILENAME="${HOME}/.ssh/${EMAIL}_rsa"
-        ssh-keygen -t rsa -b 4096 -C "$EMAIL" -f "$FILENAME"
-        exit_if_error "Error generating ssh key"
-
-        yes_or_no "Do you want to add host definition and key to ssh config?"
-
-        if [ $? -eq 0 ]
-        then
-            GITHUBHOST="github.com"
-            HOST=$(read_input "Enter host name ($GITHUBHOST as default, could also be ${GITHUBHOST}-something to use different ssh keys for different repos): ")
-            if [ -z "$HOST" ]
-            then
-                HOST=$GITHUBHOST
-            fi
-            echo "Host $HOST" >> ~/.ssh/config &&
-            echo "  HostName $GITHUBHOST" >> "$HOME"/.ssh/config &&
-            echo "  User git" >> ~/.ssh/config &&
-            echo "  IdentityFile $FILENAME" >> "$HOME"/.ssh/config
-
-        fi
-        exit_if_error "Error adding host definition and key to ssh config"
-
-        yes_or_no "Do you want to generate another ssh key?"
-        GENERATESSHKEYS=$?
-
-        if [ $GENERATESSHKEYS -ne 0 ]
-        then
-            echo_message "Your ssh configuration is:"
-            cat "${HOME}/.ssh/config"
-            exit_if_error "Error reading ssh config"
-
-            echo_message "Your ssh keys and configuration are:"
-            ls -l "$HOME/.ssh"
-            exit_if_error "Error reading ssh config"
-            echo_info "Do not forget to add generated ssh keys to your github account using following instruction: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account"
-            press_any_key
-        fi
-    done
+sync_onedrive() {
+	onedrive --skip-dir "Docs|Pictures" --synchronize --download-only
 }
 
-# ./src/actions/configure/configure_grub_menu.sh
+# ./src/features/cli/install_bashly.sh
 #!/bin/bash
 
+install_bashly() {
+	echo_info "Configure shell to run bashly commands as a Docker container"
 
-configure_grub_menu() {
-	echo_info "Beautify Grub menu"
-
-	yes_or_no "Do you want to beautify Grub menu?"
-	exit_if_answer_no
-
-	echo_message "Beautify Grub menu for Linux Mint"
-	apt install --reinstall -o Dpkg::Options::="--force-confmiss" grub2-theme-mint2k
+	echo "alias bashly='docker run --rm -it --volume "$PWD:/app" dannyben/bashly'" >> ~/.bashrc
+	source ~/.bashrc
 }
 
-# ./src/actions/configure/configure_kubeconfig.sh
+# ./src/features/containerization/apply_k3s_config.sh
 #!/bin/bash
 
-configure_kubeconfig() {
+apply_k3s_config() {
     echo_info "Configure kubectl to use k3s"
 
     if [ -e /etc/rancher/k3s/k3s.yaml ]
@@ -467,93 +991,14 @@ configure_kubeconfig() {
     fi
 }
 
-# ./src/actions/configure/configure_vals_vault.sh
-#!/bin/bash
-
-configure_vals_vault() {
-    echo_info "Configure vals for using Hashicorp Vault as secrets store"
-
-    yes_or_no "Do you want to vals for using Hashicorp Vault as secrets store?"
-
-    if [[ $? -eq 0 ]]
-    then
-        # Prompt the user for Vault URL and token
-        VAULT_ADDR=$(read_input "Enter Hashicorp Vault URL: ")
-        VAULT_TOKEN=$(read_input "Enter Vault Token: ")
-
-        # Add the environment variables to .bashrc
-        echo "export VAULT_ADDR=$VAULT_ADDR" >> ~/.bashrc
-        echo "export VAULT_TOKEN=$VAULT_TOKEN" >> ~/.bashrc
-        echo "export VAULT_AUTH_METHOD=token" >> ~/.bashrc
-
-        # Inform the user
-        echo "Vault URL and token have been added to ~/.bashrc"
-
-        # Source the .bashrc to apply changes immediately
-        source ~/.bashrc
-    fi
-}
-
-# ./src/actions/install/install_bashly.sh
-#!/bin/bash
-
-install_bashly() {
-	echo_info "Configure shell to run bashly commands as a Docker container"
-
-	echo "alias bashly='docker run --rm -it --volume "$PWD:/app" dannyben/bashly'" >> ~/.bashrc
-	source ~/.bashrc
-}
-
-# ./src/actions/install/install_git_toolkit.sh
-#!/bin/bash
-
-
-# Include functions
-install_git_toolkit() {
-    echo "$1"
-    AUTOMATIC_MODE=$(is_automatic_mode "$1")
-
-    echo_info "Installing git and github CLI"
-
-    yes_or_no "Do you want to install git?" "$AUTOMATIC_MODE"
-
-    if [[ $? -eq 0 ]]
-    then
-        echo_message "Installing git"
-        sudo apt install git -y
-    else
-        echo_message "Skipping git installation"
-    fi
-    exit_if_error "Error installing git"
-
-    yes_or_no "Do you want to install github CLI?" "$AUTOMATIC_MODE"
-
-    if [[ $? -eq 0 ]]
-    then
-        echo_message "Installing github CLI"
-        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0 &&
-        sudo apt-add-repository https://cli.github.com/packages -y &&
-        sudo apt update && -y
-        sudo apt install gh -y
-    else
-        echo_message "Skipping github CLI installation"
-    fi
-
-    if [ $AUTOMATIC_MODE -eq 0 ]
-    then
-        exit 0
-    fi
-
-}
-
-# ./src/actions/install/install_k3s.sh
+# ./src/features/containerization/install_k3s.sh
 #!/bin/bash
 
 #   - automatic
 install_k3s() {
     AUTOMATIC_MODE=$(is_automatic_mode "$1")
 
-    echo_info "Installing and configuring k3s"
+    echo_info "Installing k3s"
 
     yes_or_no "Do you want to install k3s?" "$AUTOMATIC_MODE"
 
@@ -576,7 +1021,7 @@ install_k3s() {
     fi
 }
 
-# ./src/actions/install/install_kubernetes_toolkit.sh
+# ./src/features/containerization/install_kubernetes_toolkit.sh
 #!/bin/bash
 
 # Supported modes:
@@ -670,7 +1115,7 @@ install_kubernetes_toolkit() {
   fi
 }
 
-# ./src/actions/install/install_minikube.sh
+# ./src/features/containerization/install_minikube.sh
 
 #!/bin/bash
 
@@ -716,7 +1161,7 @@ install_minikube() {
     fi
 }
 
-# ./src/actions/install/install_rootless_docker.sh
+# ./src/features/containerization/install_rootless_docker.sh
 #!/bin/bash
 
 install_rootless_docker() {
@@ -752,39 +1197,192 @@ install_rootless_docker() {
     fi
 }
 
-# ./src/actions/install/install_vals.sh
+# ./src/features/containerization/show_kube_config.sh
 #!/bin/bash
 
-install_vals() {
-    AUTOMATIC_MODE=$(is_automatic_mode "$1")
-    echo_info "Install vals (https://github.com/helmfile/vals)"
 
-    INSTALL_VALS=0
+show_kube_config() {
+if [ -e ~/.kube/config ]
+then
+	echo_message "Your kubectl configuration (~/.kube/config) is:"
+	cat ~/.kube/config
+	echo_message "For editing configuration, use command: kubectl edit config"
+	exit_if_error "Error getting kubectl configuration"
+else
+	echo_message "Kubectl configuration (~/.kube/config) is not found."
+fi
+}
 
-    if [ -e /usr/local/bin/vals ]
+# ./src/features/git/configure_git.sh
+#!/bin/bash
+
+configure_git() {
+    echo_info "Configure git"
+
+    yes_or_no "Do you want to set global username and email for git?"
+    if [ $? -eq 0 ]
     then
-    echo_message "Vals is already installed."
-    yes_or_no "Do you want to reinstall/upgrade vals?" "$AUTOMATIC_MODE"
-    INSTALL_VALS=$?
-    else
+        USERNAME=$(read_input "Enter your username: ")
+        git config --global user.name "$USERNAME"
+        exit_if_error "Error setting global username"
 
-    yes_or_no "Do you want to install vals?" "$AUTOMATIC_MODE"
-    INSTALL_VALS=$?
+        EMAIL=$(read_input "Enter your email: ")
+        git config --global user.email "$EMAIL"
+        exit_if_error "Error setting global email"
     fi
 
-    if [[ "$INSTALL_VALS" = "0" ]]
+    yes_or_no "Do you want to generate ssh keys for github?"
+    GENERATESSHKEYS=$?
+
+    while [ $GENERATESSHKEYS -eq 0 ]
+    do
+        if [ ! -d ~/.ssh ]
+        then
+            mkdir ~/.ssh
+        fi
+        exit_if_error "Error creating ssh directory"
+
+        EMAIL=$(read_input "Enter your email: ")
+        FILENAME="${HOME}/.ssh/${EMAIL}_rsa"
+        ssh-keygen -t rsa -b 4096 -C "$EMAIL" -f "$FILENAME"
+        exit_if_error "Error generating ssh key"
+
+        yes_or_no "Do you want to add host definition and key to ssh config?"
+
+        if [ $? -eq 0 ]
+        then
+            GITHUBHOST="github.com"
+            HOST=$(read_input "Enter host name ($GITHUBHOST as default, could also be ${GITHUBHOST}-something to use different ssh keys for different repos): ")
+            if [ -z "$HOST" ]
+            then
+                HOST=$GITHUBHOST
+            fi
+            echo "Host $HOST" >> ~/.ssh/config &&
+            echo "  HostName $GITHUBHOST" >> "$HOME"/.ssh/config &&
+            echo "  User git" >> ~/.ssh/config &&
+            echo "  IdentityFile $FILENAME" >> "$HOME"/.ssh/config
+
+        fi
+        exit_if_error "Error adding host definition and key to ssh config"
+
+        yes_or_no "Do you want to generate another ssh key?"
+        GENERATESSHKEYS=$?
+
+        if [ $GENERATESSHKEYS -ne 0 ]
+        then
+            echo_message "Your ssh configuration is:"
+            cat "${HOME}/.ssh/config"
+            exit_if_error "Error reading ssh config"
+
+            echo_message "Your ssh keys and configuration are:"
+            ls -l "$HOME/.ssh"
+            exit_if_error "Error reading ssh config"
+            echo_info "Do not forget to add generated ssh keys to your github account using following instruction: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account"
+            press_any_key
+        fi
+    done
+}
+
+# ./src/features/git/install_git_toolkit.sh
+#!/bin/bash
+
+
+# Include functions
+install_git_toolkit() {
+    echo "$1"
+    AUTOMATIC_MODE=$(is_automatic_mode "$1")
+
+    echo_info "Installing git and github CLI"
+
+    yes_or_no "Do you want to install git?" "$AUTOMATIC_MODE"
+
+    if [[ $? -eq 0 ]]
     then
-        echo_message "Installing vals"
-        VALS_URL="https://github.com/helmfile/vals/releases/download/v0.37.5/vals_0.37.5_linux_amd64.tar.gz"
-        DEST_DIR="/usr/local/bin"
-        curl -L $VALS_URL -o vals.tar.gz &&
-        sudo tar -xzf vals.tar.gz -C $DEST_DIR &&
-        rm vals.tar.gz
-        exit_if_error "Error installing vals"
+        echo_message "Installing git"
+        sudo apt install git -y
+    else
+        echo_message "Skipping git installation"
+    fi
+    exit_if_error "Error installing git"
+
+    yes_or_no "Do you want to install github CLI?" "$AUTOMATIC_MODE"
+
+    if [[ $? -eq 0 ]]
+    then
+        echo_message "Installing github CLI"
+        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0 &&
+        sudo apt-add-repository https://cli.github.com/packages -y &&
+        sudo apt update && -y
+        sudo apt install gh -y
+    else
+        echo_message "Skipping github CLI installation"
+    fi
+
+    if [ $AUTOMATIC_MODE -eq 0 ]
+    then
+        exit 0
+    fi
+
+}
+
+# ./src/features/howdy/configure_howdy.sh
+#!/bin/bash
+
+
+function configure_howdy() {
+    echo_info "Configure howdy"
+
+    yes_or_no "Do you want to change device path for howdy?"
+    if [ $? -eq 0 ]
+    then
+        DEVICE_PATH=$(read_input "Enter your device path: ")
+        sudo sed -i "s|DevicePath = /dev/video0|DevicePath = $DEVICE_PATH|g" /lib/systemd/system/howdy.service
+        exit_if_error "Error changing device path"
+    fi
+
+    yes_or_no "Do you want to add face recognition for howdy?"
+
+    while [ $? -eq 0 ]
+    do
+        sudo howdy add
+        exit_if_error "Error adding face recognition"
+        yes_or_no "Do you want to add face recognition for howdy?"
+
+    done
+    echo_info "If you added face recognition, please restart your computer"
+
+}
+
+# ./src/features/howdy/install_howdy.sh
+#!/bin/bash
+
+
+install_howdy() {
+    echo_info "Install howdy and v4l-utils"
+
+    yes_or_no "Do you want to install howdy?" "$AUTOMATIC_MODE"
+    if [[ $? -eq 0 ]]
+    then
+        sudo add-apt-repository ppa:boltgolt/howdy
+        sudo apt update
+        sudo apt install howdy -y
+        echo_message "Installing howdy"
+    else
+        echo_message "Skipping howdy installation"
+        return
+    fi
+
+    yes_or_no "Do you want to install v4l-utils?" "$AUTOMATIC_MODE"
+    if [[ $? -eq 0 ]]
+    then
+        echo_message "Installing v4l-utils"
+        sudo apt install v4l-utils -y
+    else
+        echo_message "Skipping v4l-utils installation"
     fi
 }
 
-# ./src/actions/install/install_vscode.sh
+# ./src/features/ide/install_vscode.sh
 #!/bin/bash
 
 install_vscode() {
@@ -823,28 +1421,130 @@ install_vscode() {
     fi
 }
 
-# ./src/actions/sync_onedrive.sh
+# ./src/features/secrets/configure_vals_vault.sh
 #!/bin/bash
 
-sync_onedrive() {
-	onedrive --skip-dir "Docs|Pictures" --synchronize --download-only
+configure_vals_vault() {
+    echo_info "Configure vals for using Hashicorp Vault as secrets store"
+
+    yes_or_no "Do you want to vals for using Hashicorp Vault as secrets store?"
+
+    if [[ $? -eq 0 ]]
+    then
+        # Prompt the user for Vault URL and token
+        VAULT_ADDR=$(read_input "Enter Hashicorp Vault URL: ")
+        VAULT_TOKEN=$(read_input "Enter Vault Token: ")
+
+        # Add the environment variables to .bashrc
+        echo "export VAULT_ADDR=$VAULT_ADDR" >> ~/.bashrc
+        echo "export VAULT_TOKEN=$VAULT_TOKEN" >> ~/.bashrc
+        echo "export VAULT_AUTH_METHOD=token" >> ~/.bashrc
+
+        # Inform the user
+        echo "Vault URL and token have been added to ~/.bashrc"
+
+        # Source the .bashrc to apply changes immediately
+        source ~/.bashrc
+    fi
 }
 
-# ./src/actions/update_system.sh
+# ./src/features/secrets/install_vals.sh
+#!/bin/bash
+
+install_vals() {
+    AUTOMATIC_MODE=$(is_automatic_mode "$1")
+    echo_info "Install vals (https://github.com/helmfile/vals)"
+
+    INSTALL_VALS=0
+
+    if [ -e /usr/local/bin/vals ]
+    then
+    echo_message "Vals is already installed."
+    yes_or_no "Do you want to reinstall/upgrade vals?" "$AUTOMATIC_MODE"
+    INSTALL_VALS=$?
+    else
+
+    yes_or_no "Do you want to install vals?" "$AUTOMATIC_MODE"
+    INSTALL_VALS=$?
+    fi
+
+    if [[ "$INSTALL_VALS" = "0" ]]
+    then
+        echo_message "Installing vals"
+        VALS_URL="https://github.com/helmfile/vals/releases/download/v0.37.5/vals_0.37.5_linux_amd64.tar.gz"
+        DEST_DIR="/usr/local/bin"
+        curl -L $VALS_URL -o vals.tar.gz &&
+        sudo tar -xzf vals.tar.gz -C $DEST_DIR &&
+        rm vals.tar.gz
+        exit_if_error "Error installing vals"
+    fi
+}
+
+# ./src/features/system/cleanup_system.sh
 #! /bin/bash
 
+cleanup_system() {
+    AUTOMATIC_MODE=$(is_automatic_mode "$1")
+    # Running autoremove to remove unnecessary packages
+    echo "Running autoremove"
+    sudo apt-get autoremove -y
+
+    # Removing apt package cache
+    echo "Removing apt package cache"
+    sudo apt-get clean
+
+    # Getting the size of journalctl logs
+    echo "Getting the size of journalctl logs"
+    journalctl --disk-usage
+
+    yes_or_no "Do you really want to remove journalctl logs older than 3 days?" "$AUTOMATIC_MODE"
+    if [[ $? -eq 0 ]]
+    then
+        # Removing journalctl logs older than 3 days
+        echo "Removing journalctl logs older than 3 days"
+        sudo journalctl --vacuum-time=3d
+    fi
+
+    # Getting list of timeshift snapshots
+    if [ -e /usr/bin/timeshift ]
+    then
+        echo "Getting list of timeshift snapshots"
+        sudo timeshift --list
+
+        echo "Use timeshift delete --snapshot 'snapshot_name' to delete a snapshot"
+        echo "Also you can use sudo rm -rfv /timeshift/snapshots/snapshot_name to delete a snapshot"
+    fi
+
+}
+
+# ./src/features/system/configure_grub_menu.sh
+#!/bin/bash
 
 
+configure_grub_menu() {
+    echo_info "Beautify Grub menu"
 
+    yes_or_no "Do you want to beautify Grub menu?"
 
-update_system() {
+      if [[ $? -eq 0 ]]
+    then
+        echo_message "Beautify Grub menu for Linux Mint"
+        sudo apt install --reinstall -o Dpkg::Options::="--force-confmiss" grub2-theme-mint2k
+    fi
+}
 
-	echo_message "Update packages to latest version"
+# ./src/features/system/upgrade_system.sh
+#! /bin/bash
 
-	apt update && apt upgrade -y
+upgrade_system() {
+    echo_message "Update packages to latest version"
+    yes_or_no "Do you really want to upgrade packages to latest version?"
 
-	exit_if_error "Error occured during update of system"
-
+    if [[ $? -eq 0 ]]
+    then
+        sudo apt update && sudo apt upgrade -y
+        exit_if_error "Error occured during update of system"
+    fi
 }
 
 # ./src/functions/colors.sh
@@ -897,7 +1597,7 @@ setup_kubernetes_toolkit() {
 setup_k3s() {
     install_k3s $1 &&
 
-    config_kubeconfig
+    apply_k3s_config
 
 }
 
@@ -946,7 +1646,7 @@ echo_error(){
 
 function question(){
     local MESSAGE
-    MESSAGE=$(green_bold "[$(timestamp)] $1\n")
+    MESSAGE=$(green_bold "[$(timestamp)] $1")
 
     read -sn 1 -r -p "$MESSAGE" ANSWER
     echo  "$ANSWER"
@@ -984,6 +1684,7 @@ function yes_or_no(){
 
     local ANSWER
     ANSWER=$(question "$1 [y/n]")
+    echo "$ANSWER"
     if [[ "$ANSWER" = "y" || "$ANSWER" = "Y" ]]
     then
         return 0
@@ -1017,7 +1718,7 @@ function press_any_key(){
 #!/bin/bash
 workspace_app() {
     local WORKSPACE_APP="${args[application]}"
-    echo $WORKSPACE_APP
+    echo "$WORKSPACE_APP"
 }
 
 workspace_yes() {
@@ -1042,12 +1743,229 @@ workspace_config_flag() {
     echo "${args[--config]}"
 }
 
+workspace_distro() {
+    local WORKSPACE_DISTRO="${args[distro]}"
+    echo "$WORKSPACE_DISTRO"
+}
+
+# ./src/send_completions.sh
+send_completions() {
+  echo $'# workspace completion                                     -*- shell-script -*-'
+  echo $''
+  echo $'# This bash completions script was generated by'
+  echo $'# completely (https://github.com/dannyben/completely)'
+  echo $'# Modifying it manually is not recommended'
+  echo $''
+  echo $'_workspace_completions_filter() {'
+  echo $'  local words="$1"'
+  echo $'  local cur=${COMP_WORDS[COMP_CWORD]}'
+  echo $'  local result=()'
+  echo $''
+  echo $'  if [[ "${cur:0:1}" == "-" ]]; then'
+  echo $'    echo "$words"'
+  echo $''
+  echo $'  else'
+  echo $'    for word in $words; do'
+  echo $'      [[ "${word:0:1}" != "-" ]] && result+=("$word")'
+  echo $'    done'
+  echo $''
+  echo $'    echo "${result[*]}"'
+  echo $''
+  echo $'  fi'
+  echo $'}'
+  echo $''
+  echo $'_workspace_completions() {'
+  echo $'  local cur=${COMP_WORDS[COMP_CWORD]}'
+  echo $'  local compwords=("${COMP_WORDS[@]:1:$COMP_CWORD-1}")'
+  echo $'  local compline="${compwords[*]}"'
+  echo $''
+  echo $'  case "$compline" in'
+  echo $'    \'system beautify-grub-menu\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'kube apply-k3s-config\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'kube-tools install\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help --yes -h -y")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'kube show-config\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'system cleanup\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'system upgrade\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'vscode install\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help --yes -h -y")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'docker install\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help --yes -h -y")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'howdy install\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help --yes -h -y")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'vals install\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help --yes -h -y")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'kube install\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help --yes -h -y k3s minikube")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'howdy config\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'howdy setup\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'git install\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help --yes -h -y")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'vals config\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'git config\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'vals setup\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'kube-tools\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h install")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'git setup\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'install\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help --yes -h -y all docker git k3s kube-tools minikube vals vscode")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'system\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h beautify-grub-menu cleanup upgrade")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'vscode\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h install")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'config\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h all git kubeconfig vals")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'docker\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h install")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'setup\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h all docker git k3s kube-tools minikube vals vscode")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'howdy\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h config install setup")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'vals\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h config install setup")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'kube\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h apply-k3s-config install show-config")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'git\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h config install setup")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'c\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h all git kubeconfig vals")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'s\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h all docker git k3s kube-tools minikube vals vscode")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'i\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help --yes -h -y all docker git k3s kube-tools minikube vals vscode")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    *)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help --version -h -v c config docker git howdy i install kube kube-tools s setup system vals vscode")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'  esac'
+  echo $'} &&'
+  echo $'  complete -F _workspace_completions workspace'
+  echo $''
+  echo $'# ex: filetype=sh'
+}
+
 # :command.command_functions
+# :command.function
+workspace_install_command() {
+  # ./bashly/commands/install.sh
+  #!/bin/bash
+
+  WORKSPACE_APP="$(workspace_app)"
+  WORKSPACE_YES="$(workspace_yes)"
+
+  case "$WORKSPACE_APP" in
+    "git")
+      install_git_toolkit "$WORKSPACE_YES"
+      ;;
+    "docker")
+      install_rootless_docker "$WORKSPACE_YES"
+      ;;
+    "k3s")
+      install_k3s "$WORKSPACE_YES"
+      ;;
+    "minikube")
+       install_minikube "$WORKSPACE_YES"
+       ;;
+    "kube-tools")
+       install_kubernetes_toolkit "$WORKSPACE_YES"
+       ;;
+    "vals")
+       install_vals "$WORKSPACE_YES"
+       ;;
+
+    "vscode")
+       install_vscode "$WORKSPACE_YES"
+       ;;
+    "all")
+       install_git_toolkit "$WORKSPACE_YES" &&
+       install_vscode "$WORKSPACE_YES" &
+       install_rootless_docker "$WORKSPACE_YES" &&
+       install_k3s "$WORKSPACE_YES" &&
+       install_kubernetes_toolkit "$WORKSPACE_YES" &&
+       install_vals "$WORKSPACE_YES"
+  esac
+
+}
+
 # :command.function
 workspace_setup_command() {
   # ./bashly/commands/setup.sh
   #!/bin/bash
-  inspect_args
   WORKSPACE_APP="$(workspace_app)"
   WORKSPACE_YES="$(workspace_yes)"
 
@@ -1098,7 +2016,7 @@ workspace_config_command() {
       ;;
     "kubeconfig")
       # Configure kubernetes config file
-      configure_kubeconfig
+      apply_k3s_config
       ;;
     "vals")
       # Configure vals for using Hashicorp Vault as secrets store
@@ -1118,65 +2036,166 @@ workspace_config_command() {
 }
 
 # :command.function
-workspace_install_command() {
-  # ./bashly/commands/install.sh
-  inspect_args
+workspace_git_setup_command() {
+  # ./bashly/commands/git/setup.sh
+  #!/bin/bash
+  install_git_toolkit
+  configure_git
 
-  WORKSPACE_APP="$(workspace_app)"
+}
+
+# :command.function
+workspace_git_install_command() {
+  # ./bashly/commands/git/install.sh
+  #!/bin/bash
   WORKSPACE_YES="$(workspace_yes)"
+  install_git_toolkit "$WORKSPACE_YES"
 
-  case "$WORKSPACE_APP" in
-    "git")
-      install_git_toolkit "$WORKSPACE_YES"
-      ;;
-    "docker")
-      install_rootless_docker "$WORKSPACE_YES"
-      ;;
+}
+
+# :command.function
+workspace_git_config_command() {
+  # ./bashly/commands/git/config.sh
+  #!/bin/bash
+  configure_git
+
+}
+
+# :command.function
+workspace_docker_install_command() {
+  # ./bashly/commands/docker/install.sh
+  #!/bin/bash
+  WORKSPACE_YES="$(workspace_yes)"
+  install_docker "$WORKSPACE_YES"
+
+}
+
+# :command.function
+workspace_howdy_setup_command() {
+  # ./bashly/commands/howdy/setup.sh
+  #!/bin/bash
+  install_howdy
+  configure_howdy
+
+}
+
+# :command.function
+workspace_howdy_install_command() {
+  # ./bashly/commands/howdy/install.sh
+  #!/bin/bash
+  WORKSPACE_YES="$(workspace_yes)"
+  install_howdy "$WORKSPACE_YES"
+
+}
+
+# :command.function
+workspace_howdy_config_command() {
+  # ./bashly/commands/howdy/config.sh
+  #!/bin/bash
+  configure_howdy
+
+}
+
+# :command.function
+workspace_kube_install_command() {
+  # ./bashly/commands/kube/install.sh
+  #!/bin/bash
+  WORKSPACE_YES="$(workspace_yes)"
+  WORKSPACE_DISTRO="$(workspace_distro)"
+
+  case "$WORKSPACE_DISTRO" in
     "k3s")
       install_k3s "$WORKSPACE_YES"
       ;;
     "minikube")
        install_minikube "$WORKSPACE_YES"
        ;;
-    "kube-tools")
-       install_kubernetes_toolkit "$WORKSPACE_YES"
-       ;;
-    "vals")
-       install_vals "$WORKSPACE_YES"
-       ;;
-
-    "vscode")
-       install_vscode "$WORKSPACE_YES"
-       ;;
-    "all")
-       install_git_toolkit "$WORKSPACE_YES" &&
-       install_vscode "$WORKSPACE_YES" &
-       install_rootless_docker "$WORKSPACE_YES" &&
-       install_k3s "$WORKSPACE_YES" &&
-       install_kubernetes_toolkit "$WORKSPACE_YES" &&
-       install_vals "$WORKSPACE_YES"
   esac
 
 }
 
 # :command.function
-workspace_git_command() {
-  # ./bashly/commands/git.sh
+workspace_kube_show_config_command() {
+  # ./bashly/commands/kube/show-config.sh
   #!/bin/bash
+  show_kube_config
 
+}
+
+# :command.function
+workspace_kube_apply_k3s_config_command() {
+  # ./bashly/commands/kube/apply-k3s-config.sh
+  #!/bin/bash
+  apply_k3s_config
+
+}
+
+# :command.function
+workspace_kube_tools_install_command() {
+  # ./bashly/commands/kube-tools/install.sh
+  #!/bin/bash
   WORKSPACE_YES="$(workspace_yes)"
+  install_kubernetes_toolkit "$WORKSPACE_YES"
 
-  if [[ "$(workspace_setup_flag)" == 1 ]]; then
-  	setup_git_toolkit
-  else
+}
 
-  	if [[ "$(workspace_install_flag)"  == 1 ]]; then
-  		install_git_toolkit "$WORKSPACE_YES"
-  	fi
-  	 if [[ "$(workspace_config_flag)" == 1 ]]; then
-  		configure_git
-  	fi
-  fi
+# :command.function
+workspace_vscode_install_command() {
+  # ./bashly/commands/vscode/install.sh
+  #!/bin/bash
+  WORKSPACE_YES="$(workspace_yes)"
+  install_vscode "$WORKSPACE_YES"
+
+}
+
+# :command.function
+workspace_vals_setup_command() {
+  # ./bashly/commands/vals/setup.sh
+  #!/bin/bash
+  install_vals
+  configure_vals_vault
+
+}
+
+# :command.function
+workspace_vals_install_command() {
+  # ./bashly/commands/vals/install.sh
+  #!/bin/bash
+  WORKSPACE_YES="$(workspace_yes)"
+  install_vals "$WORKSPACE_YES"
+
+}
+
+# :command.function
+workspace_vals_config_command() {
+  # ./bashly/commands/vals/config.sh
+  #!/bin/bash
+  configure_vals_vault
+
+}
+
+# :command.function
+workspace_system_upgrade_command() {
+  # ./bashly/commands/system/upgrade.sh
+  #!/bin/bash
+  upgrade_system
+
+}
+
+# :command.function
+workspace_system_cleanup_command() {
+  # ./bashly/commands/system/cleanup.sh
+  #!/bin/bash
+  WORKSPACE_YES="$(workspace_yes)"
+  cleanup_system "$WORKSPACE_YES"
+
+}
+
+# :command.function
+workspace_system_beautify_grub_menu_command() {
+  # ./bashly/commands/system/beautify-grub-menu.sh
+  #!/bin/bash
+  configure_grub_menu
 
 }
 
@@ -1209,6 +2228,13 @@ parse_requirements() {
   case $action in
     -*) ;;
 
+    install | i)
+      action="install"
+      shift
+      workspace_install_parse_requirements "$@"
+      shift $#
+      ;;
+
     setup | s)
       action="setup"
       shift
@@ -1223,17 +2249,59 @@ parse_requirements() {
       shift $#
       ;;
 
-    install | i)
-      action="install"
-      shift
-      workspace_install_parse_requirements "$@"
-      shift $#
-      ;;
-
     git)
       action="git"
       shift
       workspace_git_parse_requirements "$@"
+      shift $#
+      ;;
+
+    docker)
+      action="docker"
+      shift
+      workspace_docker_parse_requirements "$@"
+      shift $#
+      ;;
+
+    howdy)
+      action="howdy"
+      shift
+      workspace_howdy_parse_requirements "$@"
+      shift $#
+      ;;
+
+    kube)
+      action="kube"
+      shift
+      workspace_kube_parse_requirements "$@"
+      shift $#
+      ;;
+
+    kube-tools)
+      action="kube-tools"
+      shift
+      workspace_kube_tools_parse_requirements "$@"
+      shift $#
+      ;;
+
+    vscode)
+      action="vscode"
+      shift
+      workspace_vscode_parse_requirements "$@"
+      shift $#
+      ;;
+
+    vals)
+      action="vals"
+      shift
+      workspace_vals_parse_requirements "$@"
+      shift $#
+      ;;
+
+    system)
+      action="system"
+      shift
+      workspace_system_parse_requirements "$@"
       shift $#
       ;;
 
@@ -1265,106 +2333,6 @@ parse_requirements() {
         # :command.parse_requirements_case_simple
         printf "invalid argument: %s\n" "$key" >&2
         exit 1
-
-        ;;
-
-    esac
-  done
-
-}
-
-# :command.parse_requirements
-workspace_setup_parse_requirements() {
-  # :command.fixed_flags_filter
-  while [[ $# -gt 0 ]]; do
-    case "${1:-}" in
-      --help | -h)
-        long_usage=yes
-        workspace_setup_usage
-        exit
-        ;;
-
-      *)
-        break
-        ;;
-
-    esac
-  done
-
-  # :command.command_filter
-  action="setup"
-
-  # :command.parse_requirements_while
-  while [[ $# -gt 0 ]]; do
-    key="$1"
-    case "$key" in
-
-      -?*)
-        printf "invalid option: %s\n" "$key" >&2
-        exit 1
-        ;;
-
-      *)
-        # :command.parse_requirements_case
-        # :command.parse_requirements_case_simple
-        # :argument.case
-        if [[ -z ${args['application']+x} ]]; then
-          args['application']=$1
-          shift
-        else
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-        fi
-
-        ;;
-
-    esac
-  done
-
-}
-
-# :command.parse_requirements
-workspace_config_parse_requirements() {
-  # :command.fixed_flags_filter
-  while [[ $# -gt 0 ]]; do
-    case "${1:-}" in
-      --help | -h)
-        long_usage=yes
-        workspace_config_usage
-        exit
-        ;;
-
-      *)
-        break
-        ;;
-
-    esac
-  done
-
-  # :command.command_filter
-  action="config"
-
-  # :command.parse_requirements_while
-  while [[ $# -gt 0 ]]; do
-    key="$1"
-    case "$key" in
-
-      -?*)
-        printf "invalid option: %s\n" "$key" >&2
-        exit 1
-        ;;
-
-      *)
-        # :command.parse_requirements_case
-        # :command.parse_requirements_case_simple
-        # :argument.case
-        if [[ -z ${args['application']+x} ]]; then
-          args['application']=$1
-          shift
-        else
-          printf "invalid argument: %s\n" "$key" >&2
-          exit 1
-        fi
 
         ;;
 
@@ -1428,6 +2396,131 @@ workspace_install_parse_requirements() {
     esac
   done
 
+  # :command.required_args_filter
+  if [[ -z ${args['application']+x} ]]; then
+    printf "missing required argument: APPLICATION\nusage: workspace install APPLICATION [OPTIONS]\n" >&2
+
+    exit 1
+  fi
+
+  # :command.whitelist_filter
+  if [[ -n ${args['application']:-} ]] && [[ ! ${args['application']:-} =~ ^(all|git|docker|k3s|minikube|kube-tools|vscode|vals)$ ]]; then
+    printf "%s\n" "application must be one of: all, git, docker, k3s, minikube, kube-tools, vscode, vals" >&2
+    exit 1
+  fi
+
+}
+
+# :command.parse_requirements
+workspace_setup_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_setup_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        # :argument.case
+        if [[ -z ${args['application']+x} ]]; then
+          args['application']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
+
+        ;;
+
+    esac
+  done
+
+  # :command.whitelist_filter
+  if [[ -n ${args['application']:-} ]] && [[ ! ${args['application']:-} =~ ^(all|git|docker|k3s|minikube|kube-tools|vscode|vals)$ ]]; then
+    printf "%s\n" "application must be one of: all, git, docker, k3s, minikube, kube-tools, vscode, vals" >&2
+    exit 1
+  fi
+
+}
+
+# :command.parse_requirements
+workspace_config_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_config_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="config"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        # :argument.case
+        if [[ -z ${args['application']+x} ]]; then
+          args['application']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
+
+        ;;
+
+    esac
+  done
+
+  # :command.whitelist_filter
+  if [[ -n ${args['application']:-} ]] && [[ ! ${args['application']:-} =~ ^(all|git|kubeconfig|vals)$ ]]; then
+    printf "%s\n" "application must be one of: all, git, kubeconfig, vals" >&2
+    exit 1
+  fi
+
 }
 
 # :command.parse_requirements
@@ -1449,36 +2542,137 @@ workspace_git_parse_requirements() {
   done
 
   # :command.command_filter
-  action="git"
+  action=${1:-}
+
+  case $action in
+    -*) ;;
+
+    setup)
+      action="setup"
+      shift
+      workspace_git_setup_parse_requirements "$@"
+      shift $#
+      ;;
+
+    install)
+      action="install"
+      shift
+      workspace_git_install_parse_requirements "$@"
+      shift $#
+      ;;
+
+    config)
+      action="config"
+      shift
+      workspace_git_config_parse_requirements "$@"
+      shift $#
+      ;;
+
+    # :command.command_fallback
+    "")
+      workspace_git_usage >&2
+      exit 1
+      ;;
+
+    *)
+      printf "invalid command: %s\n" "$action" >&2
+      exit 1
+      ;;
+
+  esac
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
     key="$1"
     case "$key" in
-      # :flag.case
-      --setup | -s)
 
-        # :flag.case_no_arg
-        args['--setup']=1
-        shift
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
         ;;
 
-      # :flag.case
-      --install | -i)
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
 
-        # :flag.case_no_arg
-        args['--install']=1
-        shift
         ;;
 
-      # :flag.case
-      --config | -c)
+    esac
+  done
 
-        # :flag.case_no_arg
-        args['--config']=1
-        shift
+}
+
+# :command.parse_requirements
+workspace_git_setup_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_git_setup_usage
+        exit
         ;;
 
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="git setup"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_git_install_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_git_install_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="git install"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
       # :flag.case
       --yes | -y)
 
@@ -1505,9 +2699,1337 @@ workspace_git_parse_requirements() {
 
 }
 
+# :command.parse_requirements
+workspace_git_config_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_git_config_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.dependencies_filter
+  if command -v git >/dev/null 2>&1; then
+    deps['git']="$(command -v git | head -n1)"
+  else
+    printf "missing dependency: git\n" >&2
+    exit 1
+  fi
+
+  if command -v ssh-keygen >/dev/null 2>&1; then
+    deps['ssh-keygen']="$(command -v ssh-keygen | head -n1)"
+  else
+    printf "missing dependency: ssh-keygen\n" >&2
+    exit 1
+  fi
+
+  # :command.command_filter
+  action="git config"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_docker_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_docker_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action=${1:-}
+
+  case $action in
+    -*) ;;
+
+    install)
+      action="install"
+      shift
+      workspace_docker_install_parse_requirements "$@"
+      shift $#
+      ;;
+
+    # :command.command_fallback
+    "")
+      workspace_docker_usage >&2
+      exit 1
+      ;;
+
+    *)
+      printf "invalid command: %s\n" "$action" >&2
+      exit 1
+      ;;
+
+  esac
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_docker_install_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_docker_install_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="docker install"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --yes | -y)
+
+        # :flag.case_no_arg
+        args['--yes']=1
+        shift
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_howdy_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_howdy_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action=${1:-}
+
+  case $action in
+    -*) ;;
+
+    setup)
+      action="setup"
+      shift
+      workspace_howdy_setup_parse_requirements "$@"
+      shift $#
+      ;;
+
+    install)
+      action="install"
+      shift
+      workspace_howdy_install_parse_requirements "$@"
+      shift $#
+      ;;
+
+    config)
+      action="config"
+      shift
+      workspace_howdy_config_parse_requirements "$@"
+      shift $#
+      ;;
+
+    # :command.command_fallback
+    "")
+      workspace_howdy_usage >&2
+      exit 1
+      ;;
+
+    *)
+      printf "invalid command: %s\n" "$action" >&2
+      exit 1
+      ;;
+
+  esac
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_howdy_setup_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_howdy_setup_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="howdy setup"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_howdy_install_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_howdy_install_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="howdy install"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --yes | -y)
+
+        # :flag.case_no_arg
+        args['--yes']=1
+        shift
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_howdy_config_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_howdy_config_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.dependencies_filter
+  if command -v howdy >/dev/null 2>&1; then
+    deps['howdy']="$(command -v howdy | head -n1)"
+  else
+    printf "missing dependency: howdy\n" >&2
+    exit 1
+  fi
+
+  if command -v v4l-utils >/dev/null 2>&1; then
+    deps['v4l-utils']="$(command -v v4l-utils | head -n1)"
+  else
+    printf "missing dependency: v4l-utils\n" >&2
+    exit 1
+  fi
+
+  # :command.command_filter
+  action="howdy config"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_kube_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_kube_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action=${1:-}
+
+  case $action in
+    -*) ;;
+
+    install)
+      action="install"
+      shift
+      workspace_kube_install_parse_requirements "$@"
+      shift $#
+      ;;
+
+    show-config)
+      action="show-config"
+      shift
+      workspace_kube_show_config_parse_requirements "$@"
+      shift $#
+      ;;
+
+    apply-k3s-config)
+      action="apply-k3s-config"
+      shift
+      workspace_kube_apply_k3s_config_parse_requirements "$@"
+      shift $#
+      ;;
+
+    # :command.command_fallback
+    "")
+      workspace_kube_usage >&2
+      exit 1
+      ;;
+
+    *)
+      printf "invalid command: %s\n" "$action" >&2
+      exit 1
+      ;;
+
+  esac
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_kube_install_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_kube_install_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="kube install"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --yes | -y)
+
+        # :flag.case_no_arg
+        args['--yes']=1
+        shift
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        # :argument.case
+        if [[ -z ${args['distro']+x} ]]; then
+          args['distro']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
+
+        ;;
+
+    esac
+  done
+
+  # :command.required_args_filter
+  if [[ -z ${args['distro']+x} ]]; then
+    printf "missing required argument: DISTRO\nusage: workspace kube install DISTRO [OPTIONS]\n" >&2
+
+    exit 1
+  fi
+
+  # :command.whitelist_filter
+  if [[ -n ${args['distro']:-} ]] && [[ ! ${args['distro']:-} =~ ^(k3s|minikube)$ ]]; then
+    printf "%s\n" "distro must be one of: k3s, minikube" >&2
+    exit 1
+  fi
+
+}
+
+# :command.parse_requirements
+workspace_kube_show_config_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_kube_show_config_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="kube show-config"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_kube_apply_k3s_config_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_kube_apply_k3s_config_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="kube apply-k3s-config"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_kube_tools_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_kube_tools_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action=${1:-}
+
+  case $action in
+    -*) ;;
+
+    install)
+      action="install"
+      shift
+      workspace_kube_tools_install_parse_requirements "$@"
+      shift $#
+      ;;
+
+    # :command.command_fallback
+    "")
+      workspace_kube_tools_usage >&2
+      exit 1
+      ;;
+
+    *)
+      printf "invalid command: %s\n" "$action" >&2
+      exit 1
+      ;;
+
+  esac
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_kube_tools_install_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_kube_tools_install_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="kube-tools install"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --yes | -y)
+
+        # :flag.case_no_arg
+        args['--yes']=1
+        shift
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_vscode_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_vscode_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action=${1:-}
+
+  case $action in
+    -*) ;;
+
+    install)
+      action="install"
+      shift
+      workspace_vscode_install_parse_requirements "$@"
+      shift $#
+      ;;
+
+    # :command.command_fallback
+    "")
+      workspace_vscode_usage >&2
+      exit 1
+      ;;
+
+    *)
+      printf "invalid command: %s\n" "$action" >&2
+      exit 1
+      ;;
+
+  esac
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_vscode_install_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_vscode_install_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="vscode install"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --yes | -y)
+
+        # :flag.case_no_arg
+        args['--yes']=1
+        shift
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_vals_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_vals_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action=${1:-}
+
+  case $action in
+    -*) ;;
+
+    setup)
+      action="setup"
+      shift
+      workspace_vals_setup_parse_requirements "$@"
+      shift $#
+      ;;
+
+    install)
+      action="install"
+      shift
+      workspace_vals_install_parse_requirements "$@"
+      shift $#
+      ;;
+
+    config)
+      action="config"
+      shift
+      workspace_vals_config_parse_requirements "$@"
+      shift $#
+      ;;
+
+    # :command.command_fallback
+    "")
+      workspace_vals_usage >&2
+      exit 1
+      ;;
+
+    *)
+      printf "invalid command: %s\n" "$action" >&2
+      exit 1
+      ;;
+
+  esac
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_vals_setup_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_vals_setup_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="vals setup"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_vals_install_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_vals_install_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="vals install"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --yes | -y)
+
+        # :flag.case_no_arg
+        args['--yes']=1
+        shift
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_vals_config_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_vals_config_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.dependencies_filter
+  if command -v vals >/dev/null 2>&1; then
+    deps['vals']="$(command -v vals | head -n1)"
+  else
+    printf "missing dependency: vals\n" >&2
+    exit 1
+  fi
+
+  # :command.command_filter
+  action="vals config"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_system_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_system_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action=${1:-}
+
+  case $action in
+    -*) ;;
+
+    upgrade)
+      action="upgrade"
+      shift
+      workspace_system_upgrade_parse_requirements "$@"
+      shift $#
+      ;;
+
+    cleanup)
+      action="cleanup"
+      shift
+      workspace_system_cleanup_parse_requirements "$@"
+      shift $#
+      ;;
+
+    beautify-grub-menu)
+      action="beautify-grub-menu"
+      shift
+      workspace_system_beautify_grub_menu_parse_requirements "$@"
+      shift $#
+      ;;
+
+    # :command.command_fallback
+    "")
+      workspace_system_usage >&2
+      exit 1
+      ;;
+
+    *)
+      printf "invalid command: %s\n" "$action" >&2
+      exit 1
+      ;;
+
+  esac
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_system_upgrade_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_system_upgrade_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="system upgrade"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_system_cleanup_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_system_cleanup_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="system cleanup"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_system_beautify_grub_menu_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_system_beautify_grub_menu_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="system beautify-grub-menu"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
 # :command.initialize
 initialize() {
-  version="0.3.0"
+  version="0.5.0"
   long_usage=''
 
 }
@@ -1523,10 +4045,35 @@ run() {
   parse_requirements "${input[@]}"
 
   case "$action" in
+    "install") workspace_install_command ;;
     "setup") workspace_setup_command ;;
     "config") workspace_config_command ;;
-    "install") workspace_install_command ;;
     "git") workspace_git_command ;;
+    "git setup") workspace_git_setup_command ;;
+    "git install") workspace_git_install_command ;;
+    "git config") workspace_git_config_command ;;
+    "docker") workspace_docker_command ;;
+    "docker install") workspace_docker_install_command ;;
+    "howdy") workspace_howdy_command ;;
+    "howdy setup") workspace_howdy_setup_command ;;
+    "howdy install") workspace_howdy_install_command ;;
+    "howdy config") workspace_howdy_config_command ;;
+    "kube") workspace_kube_command ;;
+    "kube install") workspace_kube_install_command ;;
+    "kube show-config") workspace_kube_show_config_command ;;
+    "kube apply-k3s-config") workspace_kube_apply_k3s_config_command ;;
+    "kube-tools") workspace_kube_tools_command ;;
+    "kube-tools install") workspace_kube_tools_install_command ;;
+    "vscode") workspace_vscode_command ;;
+    "vscode install") workspace_vscode_install_command ;;
+    "vals") workspace_vals_command ;;
+    "vals setup") workspace_vals_setup_command ;;
+    "vals install") workspace_vals_install_command ;;
+    "vals config") workspace_vals_config_command ;;
+    "system") workspace_system_command ;;
+    "system upgrade") workspace_system_upgrade_command ;;
+    "system cleanup") workspace_system_cleanup_command ;;
+    "system beautify-grub-menu") workspace_system_beautify_grub_menu_command ;;
   esac
 }
 

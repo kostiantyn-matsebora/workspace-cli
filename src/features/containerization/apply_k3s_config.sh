@@ -4,7 +4,7 @@
 ##  - interactive
 ## Description:
 ##  - Rewrite kubeconfig file by k3s client configuration
-configure_kubeconfig() {
+apply_k3s_config() {
     echo_info "Configure kubectl to use k3s"
 
     if [ -e /etc/rancher/k3s/k3s.yaml ]

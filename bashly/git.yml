@@ -1,0 +1,26 @@
+name: git
+help: Install and configure git toolkit
+commands:
+  - name: setup
+    group: Setup
+    help: Install and configure git toolkit
+    flags: []
+  - name: install
+    group: Install
+    help: Install git toolkit
+    flags: 
+    - long: --yes
+      short: -y
+      help: Automatic mode, does not require interactive input. Applicable only to --install option. Useful for CI/CD environments and automation scripts.
+  - name: config
+    group: Configuration
+    help: Configure git toolkit
+    flags: []
+    dependencies:
+    - git
+    - ssh-keygen
+
+examples:
+- workspace git setup // Install and configure git toolkit
+- workspace git install -y // Install git toolkit, automatic mode
+- workspace git config // Configure git toolkit

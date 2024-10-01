@@ -1,0 +1,14 @@
+name: kube-tools
+help: Kubernetes CLI tools installation and configuration
+commands:
+  - name: install
+    help: Install kubernetes tools such as  kubectl, helm, helmfile
+    flags: 
+    - long: --yes
+      short: -y
+      help: Automatic mode, does not require interactive input. Applicable only to install option. Useful for CI/CD environments and automation scripts.
+
+examples:
+- workspace kube-tools install -y // Install kubernetes CLI tools in automatic mode
+
+

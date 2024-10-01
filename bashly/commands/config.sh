@@ -9,7 +9,7 @@ case "$WORKSPACE_APP" in
     ;;
   "kubeconfig")
     # Configure kubernetes config file
-    configure_kubeconfig
+    apply_k3s_config
     ;;
   "vals")
     # Configure vals for using Hashicorp Vault as secrets store

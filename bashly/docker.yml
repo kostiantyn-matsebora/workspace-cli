@@ -1,0 +1,14 @@
+name: docker
+help: Install rootless docker
+commands:
+  - name: install
+    group: Install
+    help: Install rootless docker
+    flags: 
+    - long: --yes
+      short: -y
+      help: Automatic mode, does not require interactive input. Applicable only to install option. Useful for CI/CD environments and automation scripts.
+
+examples:
+- workspace docker install // Install and configure docker
+- workspace docker install -y // Install docker, automatic mode

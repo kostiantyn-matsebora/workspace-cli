@@ -1,0 +1,16 @@
+name: install
+alias: i
+help: >
+  Install applications and tools required for workspace.
+  Does not require interactive input, so this command cannot be used in CI/CD environments and automation scripts.
+args:
+- name: application
+  help: >
+    Application or toolkit needs to be installed.
+  allowed: [all, git, docker, k3s, minikube, kube-tools, vscode, vals]
+  required: true
+
+flags: 
+- long: --yes
+  short: -y
+  help: Automatic mode, does not require interactive input. Useful for CI/CD environments and automation scripts.
