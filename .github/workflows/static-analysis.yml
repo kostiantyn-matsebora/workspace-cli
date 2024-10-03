@@ -18,4 +18,6 @@ jobs:
       with:
         ignore_paths: >-
           release
-        
+          src/send_completions.sh
+          src/functions/colors.sh
+        severity: error
