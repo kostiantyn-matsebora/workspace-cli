@@ -11,7 +11,8 @@ Functionality includes installation and configuration of the following applicati
 - Single node kubernetes: [k3s](https://k3s.io/) or [minikube](https://minikube.sigs.k8s.io/docs/).
 - Kubernetes CLI tools like: [kubectl](https://kubernetes.io/docs/reference/kubectl/), [helm](https://helm.sh/), [helmfile](https://github.com/helmfile/helmfile), [vals](https://github.com/helmfile/vals).
 
-For more details about the functionality and usage see the [`Help`](cli/index.md).
+Workspace CLI is designed to be used on a Linux environment, and it is tested on Ubuntu 22.04 LTS.
+
 ## Installation
 
 To install workspace CLI you simply must do the following steps:

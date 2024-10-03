@@ -1638,12 +1638,19 @@ echo_info 'Autocomplete registered successfully'
 # ./src/features/workspace/upgrade.sh
 #!/bin/bash
 upgrade_workspace() {
+
+  AUTOMATIC_MODE=$(is_automatic_mode "$1")
+
   echo_info "Upgrading workspace $(workspace --version)"
   local WORKSPACE_HOME_PATH="$HOME/bin"
-  WORKSPACE_PATH="$(question "Enter the path where workspace is installed ($WORKSPACE_HOME_PATH as default): ")"
-  if [ -z "$WORKSPACE_PATH" ]
+  local WORKSPACE_PATH="$WORKSPACE_HOME_PATH"
+  if [[ $AUTOMATIC_MODE != "0" ]]
   then
-    WORKSPACE_PATH="$WORKSPACE_HOME_PATH"
+    WORKSPACE_PATH="$(question "Enter the path where workspace is installed ($WORKSPACE_HOME_PATH as default): ")"
+    if [ -z "$WORKSPACE_PATH" ]
+    then
+        WORKSPACE_PATH="$WORKSPACE_HOME_PATH"
+    fi
   fi
   echo_message "Upgrading workspace at $WORKSPACE_PATH"
   wget https://raw.githubusercontent.com/kostiantyn-matsebora/workspace-cli/master/release/workspace -O "$WORKSPACE_PATH/workspace"
@@ -2057,7 +2064,8 @@ workspace_register_autocomplete_command() {
 workspace_upgrade_command() {
   # ./bashly/commands/upgrade.sh
   #!/bin/bash
-  upgrade_workspace
+  WORKSPACE_YES="$(workspace_yes)"
+  upgrade_workspace "$WORKSPACE_YES"
 
 }
 
