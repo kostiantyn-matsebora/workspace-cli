@@ -1,6 +1,6 @@
 name: workspace
 help: CLI that provides functionality for installing and configuring workspace for a software engineer/DevOps. 
-version: 0.6.0
+version: 0.6.1
 
 x_markdown_footer: |-
       # ISSUE TRACKER
