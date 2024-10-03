@@ -1,6 +1,6 @@
 name: workspace
 help: CLI that provides functionality for installing and configuring workspace for a software engineer/DevOps. 
-version: 0.5.0
+version: 0.6.0
 
 x_markdown_footer: |-
       # ISSUE TRACKER
@@ -11,6 +11,23 @@ x_markdown_footer: |-
       [MIT License](https://github.com/kostiantyn-matsebora/workspace-cli/blob/master/LICENSE)
 
 commands:
+- name: completions
+  help: |-
+    Generate bash completions
+    Usage: eval "\$(workspace completions)"
+- name: register-autocomplete
+  help: Register autocompletion for workspace CLI in .bashrc file
+- name: upgrade
+  help: Upgrade workspace CLI to latest version
+  flags: 
+  - long: --yes
+    short: -y
+    help: |-
+      Automaticaly upgrades CLI into $HOME/bin directory, does not require interactive input.
+      Applicable only to --install option. Useful for CI/CD environments and automation scripts.
+  dependencies:
+  - wget
+
 - import: bashly/install.yml
 - import: bashly/setup.yml
 - import: bashly/config.yml
@@ -23,9 +40,7 @@ commands:
 - import: bashly/vals.yml
 - import: bashly/system.yml
 
-footer: |
-  For autocompletion, run: $ eval "$(workspace completions)"
-
-  MIT License: https://github.com/kostiantyn-matsebora/workspace-cli/blob/master/LICENSE
-  Copyright (c) 2024 Kostiantyn Matsebora
+footer: |-
+    MIT License: https://github.com/kostiantyn-matsebora/workspace-cli/blob/master/LICENSE
+    Copyright (c) 2024 Kostiantyn Matsebora
 

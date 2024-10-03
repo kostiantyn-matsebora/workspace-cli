@@ -26,17 +26,20 @@ workspace_usage() {
   echo
   # :command.usage_commands
   printf "%s\n" "$(bold "Commands:")"
-  printf "  %s   Install applications and tools required for workspace. Does not require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n" "$(green "install")   "
-  printf "  %s   Setup (install and configure) workspace. Require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n" "$(green "setup")     "
-  printf "  %s   Configure workspace. Applications needs to be already installed. Some of steps require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n" "$(green "config")    "
-  printf "  %s   Install and configure git toolkit\n" "$(green "git")       "
-  printf "  %s   Install rootless docker\n" "$(green "docker")    "
-  printf "  %s   Install and configure pluggable authentication module (PAM) howdy for facial recognition\n" "$(green "howdy")     "
-  printf "  %s   Kubernetes installation and configuration\n" "$(green "kube")      "
-  printf "  %s   Kubernetes CLI tools installation and configuration\n" "$(green "kube-tools")"
-  printf "  %s   Visual Studio Code installation and configuration\n" "$(green "vscode")    "
-  printf "  %s   Install and configure vals\n" "$(green "vals")      "
-  printf "  %s   System maintenance utilities\n" "$(green "system")    "
+  printf "  %s   Generate bash completions\n" "$(green "completions")          "
+  printf "  %s   Register autocompletion for workspace CLI in .bashrc file\n" "$(green "register-autocomplete")"
+  printf "  %s   Upgrade workspace CLI to latest version\n" "$(green "upgrade")              "
+  printf "  %s   Install applications and tools required for workspace. Does not require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n" "$(green "install")              "
+  printf "  %s   Setup (install and configure) workspace. Require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n" "$(green "setup")                "
+  printf "  %s   Configure workspace. Applications needs to be already installed. Some of steps require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n" "$(green "config")               "
+  printf "  %s   Install and configure git toolkit\n" "$(green "git")                  "
+  printf "  %s   Install rootless docker\n" "$(green "docker")               "
+  printf "  %s   Install and configure pluggable authentication module (PAM) howdy for facial recognition\n" "$(green "howdy")                "
+  printf "  %s   Kubernetes installation and configuration\n" "$(green "kube")                 "
+  printf "  %s   Kubernetes CLI tools installation and configuration\n" "$(green "kube-tools")           "
+  printf "  %s   Visual Studio Code installation and configuration\n" "$(green "vscode")               "
+  printf "  %s   Install and configure vals\n" "$(green "vals")                 "
+  printf "  %s   System maintenance utilities\n" "$(green "system")               "
   echo
 
   # :command.long_usage
@@ -52,7 +55,81 @@ workspace_usage() {
     echo
 
     # :command.footer
-    printf "For autocompletion, run: $ eval \"$(workspace completions)\"\n\nMIT License: https://github.com/kostiantyn-matsebora/workspace-cli/blob/master/LICENSE\nCopyright (c) 2024 Kostiantyn Matsebora\n\n"
+    printf "MIT License: https://github.com/kostiantyn-matsebora/workspace-cli/blob/master/LICENSE\nCopyright (c) 2024 Kostiantyn Matsebora\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_completions_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "workspace completions\n\n"
+    printf "  Generate bash completions\n  Usage: eval \"\$(workspace completions)\"\n\n"
+  else
+    printf "workspace completions - Generate bash completions\n\n"
+  fi
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace completions\n"
+  printf "  workspace completions --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_register_autocomplete_usage() {
+  printf "workspace register-autocomplete - Register autocompletion for workspace CLI in .bashrc file\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace register-autocomplete\n"
+  printf "  workspace register-autocomplete --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_upgrade_usage() {
+  printf "workspace upgrade - Upgrade workspace CLI to latest version\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace upgrade [OPTIONS]\n"
+  printf "  workspace upgrade --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "$(magenta "--yes, -y")"
+    printf "    Automaticaly upgrades CLI into $HOME/bin directory, does not require\n    interactive input.\n    Applicable only to --install option. Useful for CI/CD environments and\n    automation scripts.\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
     echo
 
   fi
@@ -1547,6 +1624,34 @@ upgrade_system() {
     fi
 }
 
+# ./src/features/workspace/register_autocomplete.sh
+#!/bin/bash
+
+register_autocomplete() {
+
+echo_info 'Registering autocomplete'
+# shellcheck disable=SC2016
+echo  'eval "$(workspace completions)"' >> "$HOME/.bashrc"
+echo_info 'Autocomplete registered successfully'
+}
+
+# ./src/features/workspace/upgrade.sh
+#!/bin/bash
+upgrade_workspace() {
+  echo_info "Upgrading workspace $(workspace --version)"
+  local WORKSPACE_HOME_PATH="$HOME/bin"
+  WORKSPACE_PATH="$(question "Enter the path where workspace is installed ($WORKSPACE_HOME_PATH as default): ")"
+  if [ -z "$WORKSPACE_PATH" ]
+  then
+    WORKSPACE_PATH="$WORKSPACE_HOME_PATH"
+  fi
+  echo_message "Upgrading workspace at $WORKSPACE_PATH"
+  wget https://raw.githubusercontent.com/kostiantyn-matsebora/workspace-cli/master/release/workspace -O "$WORKSPACE_PATH/workspace"
+  chmod +x "$WORKSPACE_PATH/workspace"
+  exit_if_error "Error upgrading workspace"
+  echo_info "Workspace upgraded successfully to version $(workspace --version)"
+}
+
 # ./src/functions/colors.sh
 print_in_color() {
   local color="$1"
@@ -1784,6 +1889,10 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
+  echo $'    \'register-autocomplete\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
   echo $'    \'kube apply-k3s-config\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
@@ -1828,6 +1937,10 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
+  echo $'    \'vals config\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
   echo $'    \'howdy setup\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
@@ -1836,7 +1949,7 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help --yes -h -y")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'vals config\'*)'
+  echo $'    \'completions\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
@@ -1844,20 +1957,32 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'vals setup\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
-  echo $'      ;;'
-  echo $''
   echo $'    \'kube-tools\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h install")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'vals setup\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'git setup\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h")" -- "$cur")'
   echo $'      ;;'
   echo $''
+  echo $'    \'upgrade\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help --yes -h -y")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
   echo $'    \'install\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help --yes -h -y all docker git k3s kube-tools minikube vals vscode")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'docker\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h install")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'config\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h all git kubeconfig vals")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'system\'*)'
@@ -1868,48 +1993,40 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h install")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'config\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h all git kubeconfig vals")" -- "$cur")'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'docker\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h install")" -- "$cur")'
+  echo $'    \'howdy\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h config install setup")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'setup\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h all docker git k3s kube-tools minikube vals vscode")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'howdy\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h config install setup")" -- "$cur")'
+  echo $'    \'kube\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h apply-k3s-config install show-config")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'vals\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h config install setup")" -- "$cur")'
   echo $'      ;;'
   echo $''
-  echo $'    \'kube\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h apply-k3s-config install show-config")" -- "$cur")'
-  echo $'      ;;'
-  echo $''
   echo $'    \'git\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h config install setup")" -- "$cur")'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'c\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h all git kubeconfig vals")" -- "$cur")'
-  echo $'      ;;'
-  echo $''
-  echo $'    \'s\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h all docker git k3s kube-tools minikube vals vscode")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'i\'*)'
   echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help --yes -h -y all docker git k3s kube-tools minikube vals vscode")" -- "$cur")'
   echo $'      ;;'
   echo $''
+  echo $'    \'s\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h all docker git k3s kube-tools minikube vals vscode")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'c\'*)'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help -h all git kubeconfig vals")" -- "$cur")'
+  echo $'      ;;'
+  echo $''
   echo $'    *)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help --version -h -v c config docker git howdy i install kube kube-tools s setup system vals vscode")" -- "$cur")'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_workspace_completions_filter "--help --version -h -v c completions config docker git howdy i install kube kube-tools register-autocomplete s setup system upgrade vals vscode")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'  esac'
@@ -1920,6 +2037,30 @@ send_completions() {
 }
 
 # :command.command_functions
+# :command.function
+workspace_completions_command() {
+  # ./bashly/commands/completions.sh
+  #!/bin/bash
+  send_completions
+
+}
+
+# :command.function
+workspace_register_autocomplete_command() {
+  # ./bashly/commands/register-autocomplete.sh
+  #!/bin/bash
+  register_autocomplete
+
+}
+
+# :command.function
+workspace_upgrade_command() {
+  # ./bashly/commands/upgrade.sh
+  #!/bin/bash
+  upgrade_workspace
+
+}
+
 # :command.function
 workspace_install_command() {
   # ./bashly/commands/install.sh
@@ -2228,6 +2369,27 @@ parse_requirements() {
   case $action in
     -*) ;;
 
+    completions)
+      action="completions"
+      shift
+      workspace_completions_parse_requirements "$@"
+      shift $#
+      ;;
+
+    register-autocomplete)
+      action="register-autocomplete"
+      shift
+      workspace_register_autocomplete_parse_requirements "$@"
+      shift $#
+      ;;
+
+    upgrade)
+      action="upgrade"
+      shift
+      workspace_upgrade_parse_requirements "$@"
+      shift $#
+      ;;
+
     install | i)
       action="install"
       shift
@@ -2322,6 +2484,153 @@ parse_requirements() {
   while [[ $# -gt 0 ]]; do
     key="$1"
     case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_completions_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_completions_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="completions"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_register_autocomplete_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_register_autocomplete_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="register-autocomplete"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_upgrade_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_upgrade_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.dependencies_filter
+  if command -v wget >/dev/null 2>&1; then
+    deps['wget']="$(command -v wget | head -n1)"
+  else
+    printf "missing dependency: wget\n" >&2
+    exit 1
+  fi
+
+  # :command.command_filter
+  action="upgrade"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --yes | -y)
+
+        # :flag.case_no_arg
+        args['--yes']=1
+        shift
+        ;;
 
       -?*)
         printf "invalid option: %s\n" "$key" >&2
@@ -4029,7 +4338,7 @@ workspace_system_beautify_grub_menu_parse_requirements() {
 
 # :command.initialize
 initialize() {
-  version="0.5.0"
+  version="0.6.0"
   long_usage=''
 
 }
@@ -4045,6 +4354,9 @@ run() {
   parse_requirements "${input[@]}"
 
   case "$action" in
+    "completions") workspace_completions_command ;;
+    "register-autocomplete") workspace_register_autocomplete_command ;;
+    "upgrade") workspace_upgrade_command ;;
     "install") workspace_install_command ;;
     "setup") workspace_setup_command ;;
     "config") workspace_config_command ;;

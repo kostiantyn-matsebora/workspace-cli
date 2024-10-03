@@ -41,7 +41,6 @@ To install workspace CLI you simply must do the following steps:
 After installation, you can use workspace CLI by running `workspace` command in your terminal. It will show you a help message with available commands.
 
 ```Bash
-
 $ workspace
 workspace - CLI that provides functionality for installing and configuring workspace for a software engineer/DevOps.
 
@@ -51,16 +50,20 @@ Usage:
   workspace --version | -v
 
 Commands:
-  install      Install applications and tools required for workspace. Does not require interactive input, so this command cannot be used in CI/CD environments and automation scripts.
-  setup        Setup (install and configure) workspace. Require interactive input, so this command cannot be used in CI/CD environments and automation scripts.
-  config       Configure workspace. Applications needs to be already installed. Some of steps require interactive input, so this command cannot be used in CI/CD environments and automation scripts.
-  git          Install and configure git toolkit
-  docker       Install rootless docker
-  howdy        Install and configure pluggable authentication module (PAM) howdy for facial recognition
-  kube         Kubernetes installation and configuration
-  kube-tools   Kubernetes CLI tools installation and configuration
-  vscode       Visual Studio Code installation and configuration
-  vals         Install and configure vals
+  completions             Generate bash completions
+  register-autocomplete   Register autocompletion for workspace CLI in .bashrc file
+  upgrade                 Upgrade workspace CLI to latest version
+  install                 Install applications and tools required for workspace. Does not require interactive input, so this command cannot be used in CI/CD environments and automation scripts.
+  setup                   Setup (install and configure) workspace. Require interactive input, so this command cannot be used in CI/CD environments and automation scripts.
+  config                  Configure workspace. Applications needs to be already installed. Some of steps require interactive input, so this command cannot be used in CI/CD environments and automation scripts.
+  git                     Install and configure git toolkit
+  docker                  Install rootless docker
+  howdy                   Install and configure pluggable authentication module (PAM) howdy for facial recognition
+  kube                    Kubernetes installation and configuration
+  kube-tools              Kubernetes CLI tools installation and configuration
+  vscode                  Visual Studio Code installation and configuration
+  vals                    Install and configure vals
+  system                  System maintenance utilities
 ```
 
 To get help for specific commands you can run: `workspace COMMAND --help`, for instance:
