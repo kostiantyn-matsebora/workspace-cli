@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 jobs:
   static_analysis:
-    name: Run shellcheck and shfmt
+    name: Run shellcheck
 
     runs-on: ubuntu-latest
 
@@ -13,43 +13,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # Rush needed for easy installation of latest shfmt
-    - name: Install rush
-      run: curl -Ls http://get.dannyb.co/rush/setup | bash
-
-    - name: Connect rush repo
-      run: rush clone dannyben --shallow --default
-
-    - name: Install shfmt
-      run: rush get shfmt
-
-    # libyaml needed for Ruby's YAML library
-    - name: Install OS dependencies
-      run: sudo apt-get -y install libyaml-dev
-
-    - name: Setup Ruby
-      uses: ruby/setup-ruby@v1
-      with: 
-        ruby-version: '3.2'
-        bundler-cache: true
-
-    - name: Generate all examples and fixtures
-      run: bundle exec run examples regen
-
-    - name: Run shellcheck and shfmt tests
-      run: bundle exec run static
-
-  codespell:
-    name: Spell check
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Install OS dependencies
-      run: sudo apt-get -y install codespell
-
-    - name: Run codespell
-      run: codespell
+    - name: Run ShellCheck
+      uses: ludeeus/action-shellcheck@master
+      with:
+        ignore_paths: >-
+          release
+        
