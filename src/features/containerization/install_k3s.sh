@@ -14,7 +14,7 @@ install_k3s() {
 
     if [[ $? -eq 0 ]]
     then
-        if [-e /usr/local/bin/ufw ]
+        if [ -e /usr/local/bin/ufw ]
         then
             echo_message "Adding firewall rules for k3s"
             ufw allow 6443/tcp && #apiserver
