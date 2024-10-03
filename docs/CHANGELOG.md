@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog],
 and this project adheres to [Semantic Versioning].
 
+## [0.6.0] - 2024-10-03
+
+### Added
+- 'register-autocomplete' command, adds autocompletion for workspace CLI in .bashrc file
+- 'upgrade' command, upgrades workspace CLI to the latest version
+
 ## [0.5.0] - 2024-10-01
 
 ### Added
