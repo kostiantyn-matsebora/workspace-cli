@@ -1081,7 +1081,7 @@ install_k3s() {
 
     if [[ $? -eq 0 ]]
     then
-        if [-e /usr/local/bin/ufw ]
+        if [ -e /usr/local/bin/ufw ]
         then
             echo_message "Adding firewall rules for k3s"
             ufw allow 6443/tcp && #apiserver
@@ -1193,7 +1193,6 @@ install_kubernetes_toolkit() {
 }
 
 # ./src/features/containerization/install_minikube.sh
-
 #!/bin/bash
 
 install_minikube() {
@@ -1638,7 +1637,6 @@ echo_info 'Autocomplete registered successfully'
 # ./src/features/workspace/upgrade.sh
 #!/bin/bash
 upgrade_workspace() {
-
   AUTOMATIC_MODE=$(is_automatic_mode "$1")
 
   echo_info "Upgrading workspace $(workspace --version)"
@@ -4346,7 +4344,7 @@ workspace_system_beautify_grub_menu_parse_requirements() {
 
 # :command.initialize
 initialize() {
-  version="0.6.0"
+  version="0.6.1"
   long_usage=''
 
 }
