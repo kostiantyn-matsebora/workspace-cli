@@ -1,3 +1,3 @@
 #!/bin/bash
 WORKSPACE_YES="$(workspace_yes)"
-install_rootless_docker "$WORKSPACE_YES"
+install_docker_compose "$WORKSPACE_YES"

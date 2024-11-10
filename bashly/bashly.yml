@@ -33,6 +33,7 @@ commands:
 - import: bashly/config.yml
 - import: bashly/git.yml
 - import: bashly/docker.yml
+- import: bashly/docker-compose.yml
 - import: bashly/howdy.yml
 - import: bashly/kube.yml
 - import: bashly/kube-tools.yml

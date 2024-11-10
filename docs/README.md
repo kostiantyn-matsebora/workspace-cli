@@ -41,8 +41,9 @@ To install workspace CLI you simply must do the following steps:
 
 After installation, you can use workspace CLI by running `workspace` command in your terminal. It will show you a help message with available commands.
 
-```Bash
+```shell
 $ workspace
+
 workspace - CLI that provides functionality for installing and configuring workspace for a software engineer/DevOps.
 
 Usage:
@@ -69,7 +70,7 @@ Commands:
 
 To get help for specific commands you can run: `workspace COMMAND --help`, for instance:
 
-```Bash
+```shell
 $ workspace setup --help
 workspace setup
 
@@ -83,16 +84,15 @@ Alias: s
 
 As an example to install and configure `git` and `GitHub CLI` you can run the following command:
 
-```Bash
-$ workspace setup git
+```shell
+ workspace setup git
 ```
 
 To install and configure all applications you can run:
 
-```Bash
-$ workspace setup all
+```shell
+ workspace setup all
 ```
-
 
 ## Development
 
@@ -102,28 +102,29 @@ Bashly configuration and sources are located in `bashly` directory.
 
 If you have already installed bashly you can regenerate CLI by running the following command from the destination directory:
 
-```Bash
-$ bashly generate
+```shell
+ bashly generate
 ```
+
 or if you already have docker installed you can add the following alias to your `.bashrc` or `.bash_profile` file:
 
-```Bash
+```shell
 alias bashly='docker run -it --rm -v $HOME/bin/workspace -w /work dannyben/bashly'
 ```
+
 and then use bashly command as usual:
 
-```Bash
-$ bashly generate
+```shell
+bashly generate
 ```
-For more information how to install bashly you can visit [bashly](https://bashly.dannyb.co/) website.
 
+For more information how to install bashly you can visit [bashly](https://bashly.dannyb.co/) website.
 
 ## Contributing
 
 If you experience any issues, have a question or a suggestion, or if you wish
 to contribute, feel free to [open an issue][issues] or
 [start a discussion][discussions].
-
 
 [issues]: https://github.com/kostiantyn-matsebora/workspace-cli/issues
 [discussions]: https://github.com/kostiantyn-matsebora/workspace-cli/discussions

@@ -9,6 +9,7 @@ case "$WORKSPACE_APP" in
     ;;
   "docker")
     install_rootless_docker "$WORKSPACE_YES"
+    install_docker_compose "$WORKSPACE_YES"
     ;;
   "k3s")
     install_k3s "$WORKSPACE_YES"
