@@ -34,6 +34,7 @@ workspace_usage() {
   printf "  %s   Configure workspace. Applications needs to be already installed. Some of steps require interactive input, so this command cannot be used in CI/CD environments and automation scripts.\n" "$(green "config")               "
   printf "  %s   Install and configure git toolkit\n" "$(green "git")                  "
   printf "  %s   Install rootless docker\n" "$(green "docker")               "
+  printf "  %s   Install docker-compose\n" "$(green "docker-compose")       "
   printf "  %s   Install and configure pluggable authentication module (PAM) howdy for facial recognition\n" "$(green "howdy")                "
   printf "  %s   Kubernetes installation and configuration\n" "$(green "kube")                 "
   printf "  %s   Kubernetes CLI tools installation and configuration\n" "$(green "kube-tools")           "
@@ -398,6 +399,64 @@ workspace_docker_install_usage() {
   printf "%s\n" "$(bold "Usage:")"
   printf "  workspace docker install [OPTIONS]\n"
   printf "  workspace docker install --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "$(magenta "--yes, -y")"
+    printf "    Automatic mode, does not require interactive input. Applicable only to\n    install option. Useful for CI/CD environments and automation scripts.\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_docker_compose_usage() {
+  printf "workspace docker-compose - Install docker-compose\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace docker-compose COMMAND\n"
+  printf "  workspace docker-compose [COMMAND] --help | -h\n"
+  echo
+  # :command.usage_commands
+  printf "%s\n" "$(bold "Install Commands:")"
+  printf "  %s   Install docker-compose\n" "$(green "install")"
+  echo
+
+  # :command.long_usage
+  if [[ -n "$long_usage" ]]; then
+    printf "%s\n" "$(bold "Options:")"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "$(magenta "--help, -h")"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_examples
+    printf "%s\n" "$(bold "Examples:")"
+    printf "  workspace docker-compose install // Install docker-compose\n"
+    printf "  workspace docker-compose install -y // Install docker-compose, automatic mode\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+workspace_docker_compose_install_usage() {
+  printf "workspace docker-compose install - Install docker-compose\n\n"
+
+  printf "%s\n" "$(bold "Usage:")"
+  printf "  workspace docker-compose install [OPTIONS]\n"
+  printf "  workspace docker-compose install --help | -h\n"
   echo
 
   # :command.long_usage
@@ -1068,6 +1127,26 @@ apply_k3s_config() {
     fi
 }
 
+# ./src/features/containerization/install_docker_compose.sh
+#!/bin/bash
+
+install_docker_compose() {
+
+    AUTOMATIC_MODE=$(is_automatic_mode "$1")
+
+    echo_info "Installing docker-compose"
+
+    yes_or_no "Do you want to install docker_compose?" "$AUTOMATIC_MODE"
+
+    if [ $? -eq 0 ]
+
+    then
+        # Installing docker-compose
+        echo_message "Installing docker-compose"
+        sudo apt install docker-compose -y
+    fi
+}
+
 # ./src/features/containerization/install_k3s.sh
 #!/bin/bash
 
@@ -1244,7 +1323,7 @@ install_rootless_docker() {
 
     AUTOMATIC_MODE=$(is_automatic_mode "$1")
 
-    echo_info "Installing and configuring rootless docker and docker-compose"
+    echo_info "Installing and configuring rootless docker"
 
     yes_or_no "Do you want to install rootless docker (roothless docker + containerd + buildkit)?" "$AUTOMATIC_MODE"
 
@@ -1258,18 +1337,14 @@ install_rootless_docker() {
     exit_if_error "Error installing docker"
 
     # Setup rootless docker
-        echo_message "Setting up rootless docker"
-        dockerd-rootless-setuptool.sh install
-        exit_if_error "Error setting up rootless docker"
+    echo_message "Setting up rootless docker"
+    dockerd-rootless-setuptool.sh install
+    exit_if_error "Error setting up rootless docker"
 
-        # Cleanup
-        echo_message "Cleaning up"
-        rm -f install.sh
-        exit_if_error "Error cleaning up"
-
-        # Installing docker-compose
-        echo_message "Installing docker-compose"
-        sudo apt install docker-compose -y
+    # Cleanup
+    echo_message "Cleaning up"
+    rm -f install.sh
+    exit_if_error "Error cleaning up"
     fi
 }
 
@@ -2081,6 +2156,7 @@ workspace_install_command() {
       ;;
     "docker")
       install_rootless_docker "$WORKSPACE_YES"
+      install_docker_compose "$WORKSPACE_YES"
       ;;
     "k3s")
       install_k3s "$WORKSPACE_YES"
@@ -2122,6 +2198,7 @@ workspace_setup_command() {
       ;;
     "docker")
       install_rootless_docker "$WORKSPACE_YES"
+      install_docker_compose "$WORKSPACE_YES"
       ;;
     "k3s")
       setup_k3s
@@ -2143,6 +2220,7 @@ workspace_setup_command() {
        setup_git_toolkit "$WORKSPACE_YES" &&
        install_vscode "$WORKSPACE_YES" &&
        install_rootless_docker "$WORKSPACE_YES" &&
+       install_docker_compose "$WORKSPACE_YES" &&
        setup_k3s "$WORKSPACE_YES" &&
        setup_kubernetes_toolkit "$WORKSPACE_YES" &&
        setup_vals "$WORKSPACE_YES"
@@ -2213,7 +2291,16 @@ workspace_docker_install_command() {
   # ./bashly/commands/docker/install.sh
   #!/bin/bash
   WORKSPACE_YES="$(workspace_yes)"
-  install_docker "$WORKSPACE_YES"
+  install_rootless_docker "$WORKSPACE_YES"
+
+}
+
+# :command.function
+workspace_docker_compose_install_command() {
+  # ./bashly/commands/docker-compose/install.sh
+  #!/bin/bash
+  WORKSPACE_YES="$(workspace_yes)"
+  install_docker_compose "$WORKSPACE_YES"
 
 }
 
@@ -2428,6 +2515,13 @@ parse_requirements() {
       action="docker"
       shift
       workspace_docker_parse_requirements "$@"
+      shift $#
+      ;;
+
+    docker-compose)
+      action="docker-compose"
+      shift
+      workspace_docker_compose_parse_requirements "$@"
       shift $#
       ;;
 
@@ -3160,6 +3254,124 @@ workspace_docker_install_parse_requirements() {
 
   # :command.command_filter
   action="docker install"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --yes | -y)
+
+        # :flag.case_no_arg
+        args['--yes']=1
+        shift
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_docker_compose_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_docker_compose_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action=${1:-}
+
+  case $action in
+    -*) ;;
+
+    install)
+      action="install"
+      shift
+      workspace_docker_compose_install_parse_requirements "$@"
+      shift $#
+      ;;
+
+    # :command.command_fallback
+    "")
+      workspace_docker_compose_usage >&2
+      exit 1
+      ;;
+
+    *)
+      printf "invalid command: %s\n" "$action" >&2
+      exit 1
+      ;;
+
+  esac
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+workspace_docker_compose_install_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        workspace_docker_compose_install_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="docker-compose install"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -4372,6 +4584,8 @@ run() {
     "git config") workspace_git_config_command ;;
     "docker") workspace_docker_command ;;
     "docker install") workspace_docker_install_command ;;
+    "docker-compose") workspace_docker_compose_command ;;
+    "docker-compose install") workspace_docker_compose_install_command ;;
     "howdy") workspace_howdy_command ;;
     "howdy setup") workspace_howdy_setup_command ;;
     "howdy install") workspace_howdy_install_command ;;

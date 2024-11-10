@@ -8,6 +8,7 @@ case "$WORKSPACE_APP" in
     ;;
   "docker")
     install_rootless_docker "$WORKSPACE_YES"
+    install_docker_compose "$WORKSPACE_YES"
     ;;
   "k3s")
     setup_k3s
@@ -28,6 +29,7 @@ case "$WORKSPACE_APP" in
      setup_git_toolkit "$WORKSPACE_YES" &&
      install_vscode "$WORKSPACE_YES" &&
      install_rootless_docker "$WORKSPACE_YES" &&
+     install_docker_compose "$WORKSPACE_YES" &&
      setup_k3s "$WORKSPACE_YES" &&
      setup_kubernetes_toolkit "$WORKSPACE_YES" &&
      setup_vals "$WORKSPACE_YES"

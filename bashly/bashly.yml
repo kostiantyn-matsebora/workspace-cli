@@ -1,6 +1,6 @@
 name: workspace
 help: CLI that provides functionality for installing and configuring workspace for a software engineer/DevOps. 
-version: 0.6.1
+version: 0.7.0
 
 x_markdown_footer: |-
       # ISSUE TRACKER
@@ -33,6 +33,7 @@ commands:
 - import: bashly/config.yml
 - import: bashly/git.yml
 - import: bashly/docker.yml
+- import: bashly/docker-compose.yml
 - import: bashly/howdy.yml
 - import: bashly/kube.yml
 - import: bashly/kube-tools.yml

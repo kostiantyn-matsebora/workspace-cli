@@ -10,7 +10,7 @@ install_rootless_docker() {
 
     AUTOMATIC_MODE=$(is_automatic_mode "$1")
 
-    echo_info "Installing and configuring rootless docker and docker-compose"
+    echo_info "Installing and configuring rootless docker"
 
     yes_or_no "Do you want to install rootless docker (roothless docker + containerd + buildkit)?" "$AUTOMATIC_MODE"
 
@@ -23,17 +23,13 @@ install_rootless_docker() {
     exit_if_error "Error installing docker"
 
     # Setup rootless docker
-        echo_message "Setting up rootless docker"
-        dockerd-rootless-setuptool.sh install
-        exit_if_error "Error setting up rootless docker"
+    echo_message "Setting up rootless docker"
+    dockerd-rootless-setuptool.sh install
+    exit_if_error "Error setting up rootless docker"
 
-        # Cleanup
-        echo_message "Cleaning up"
-        rm -f install.sh
-        exit_if_error "Error cleaning up"
-
-        # Installing docker-compose
-        echo_message "Installing docker-compose"
-        sudo apt install docker-compose -y
+    # Cleanup
+    echo_message "Cleaning up"
+    rm -f install.sh
+    exit_if_error "Error cleaning up"
     fi
 }
