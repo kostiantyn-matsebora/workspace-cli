@@ -55,13 +55,10 @@ Commands:
   completions             Generate bash completions
   register-autocomplete   Register autocompletion for workspace CLI in .bashrc file
   upgrade                 Upgrade workspace CLI to latest version
-  install                 Install applications and tools required for workspace. Does not require interactive input, so this command cannot be used in CI/CD environments and automation scripts.
-  setup                   Setup (install and configure) workspace. Require interactive input, so this command cannot be used in CI/CD environments and automation scripts.
-  config                  Configure workspace. Applications needs to be already installed. Some of steps require interactive input, so this command cannot be used in CI/CD environments and automation scripts.
   git                     Install and configure git toolkit
-  docker                  Install rootless docker
+  docker                  Install docker
   howdy                   Install and configure pluggable authentication module (PAM) howdy for facial recognition
-  kube                    Kubernetes installation and configuration
+  minikube                minikube installation and configuration
   kube-tools              Kubernetes CLI tools installation and configuration
   vscode                  Visual Studio Code installation and configuration
   vals                    Install and configure vals
@@ -71,15 +68,31 @@ Commands:
 To get help for specific commands you can run: `workspace COMMAND --help`, for instance:
 
 ```shell
-$ workspace setup --help
-workspace setup
+$ workspace git --help
 
-  Setup (install and configure) workspace. Some of the steps require interactive
-  input, so this command cannot be used in CI/CD environments and automation
-  scripts.
+workspace git - Install and configure git toolkit
 
-Alias: s
+Usage:
+  workspace git COMMAND
+  workspace git [COMMAND] --help | -h
 
+Setup Commands:
+  setup     Install and configure git toolkit
+
+Install Commands:
+  install   Install git toolkit
+
+Configuration Commands:
+  config    Configure git toolkit
+
+Options:
+  --help, -h
+    Show this help
+
+Examples:
+  workspace git setup // Install and configure git toolkit
+  workspace git install -y // Install git toolkit, automatic mode
+  workspace git config // Configure git toolkit
 ```
 
 As an example to install and configure `git` and `GitHub CLI` you can run the following command:
