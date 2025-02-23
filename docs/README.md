@@ -55,13 +55,10 @@ Commands:
   completions             Generate bash completions
   register-autocomplete   Register autocompletion for workspace CLI in .bashrc file
   upgrade                 Upgrade workspace CLI to latest version
-  install                 Install applications and tools required for workspace. Does not require interactive input, so this command cannot be used in CI/CD environments and automation scripts.
-  setup                   Setup (install and configure) workspace. Require interactive input, so this command cannot be used in CI/CD environments and automation scripts.
-  config                  Configure workspace. Applications needs to be already installed. Some of steps require interactive input, so this command cannot be used in CI/CD environments and automation scripts.
   git                     Install and configure git toolkit
-  docker                  Install rootless docker
+  docker                  Install docker
   howdy                   Install and configure pluggable authentication module (PAM) howdy for facial recognition
-  kube                    Kubernetes installation and configuration
+  minikube                minikube installation and configuration
   kube-tools              Kubernetes CLI tools installation and configuration
   vscode                  Visual Studio Code installation and configuration
   vals                    Install and configure vals
