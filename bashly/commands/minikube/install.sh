@@ -1,3 +1,4 @@
 #!/bin/bash
 WORKSPACE_YES="$(workspace_yes)"
-install_docker_compose "$WORKSPACE_YES"
+
+install_minikube "$WORKSPACE_YES"

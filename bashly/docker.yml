@@ -1,9 +1,9 @@
 name: docker
-help: Install rootless docker
+help: Install docker
 commands:
   - name: install
     group: Install
-    help: Install rootless docker
+    help: Install docker
     flags: 
     - long: --yes
       short: -y
