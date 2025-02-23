@@ -68,15 +68,31 @@ Commands:
 To get help for specific commands you can run: `workspace COMMAND --help`, for instance:
 
 ```shell
-$ workspace setup --help
-workspace setup
+$ workspace git --help
 
-  Setup (install and configure) workspace. Some of the steps require interactive
-  input, so this command cannot be used in CI/CD environments and automation
-  scripts.
+workspace git - Install and configure git toolkit
 
-Alias: s
+Usage:
+  workspace git COMMAND
+  workspace git [COMMAND] --help | -h
 
+Setup Commands:
+  setup     Install and configure git toolkit
+
+Install Commands:
+  install   Install git toolkit
+
+Configuration Commands:
+  config    Configure git toolkit
+
+Options:
+  --help, -h
+    Show this help
+
+Examples:
+  workspace git setup // Install and configure git toolkit
+  workspace git install -y // Install git toolkit, automatic mode
+  workspace git config // Configure git toolkit
 ```
 
 As an example to install and configure `git` and `GitHub CLI` you can run the following command:
